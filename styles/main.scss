@@ -1,0 +1,18 @@
+//Import needed parts
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+//Create custom styles
+$custom-colors: (
+        "black": #0d1f2d,
+        "dark-gray": #546a7b,
+        "light-gray": #9ea3b0,
+        "brown": #6d2e46,
+        "green": #a4f9c8,
+        "pink": #FC7DAF
+);
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+//Apply to main bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
