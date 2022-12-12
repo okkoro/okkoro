@@ -1,20 +1,24 @@
-import { auth, firestore, googleProvider } from "../lib/firebase";
-import { signInWithPopup } from "firebase/auth";
-import { UserContext } from "../lib/context";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { doc, getDoc, getFirestore, writeBatch } from 'firebase/firestore';
+import {auth, googleProvider} from "../lib/firebase";
+import {signInWithPopup} from "firebase/auth";
+import {UserContext} from "../lib/context";
+import {useCallback, useContext, useEffect, useState} from "react";
+import {doc, getDoc, getFirestore, writeBatch} from 'firebase/firestore';
 // @ts-ignore
 import debounce from 'lodash.debounce';
 
 export default function Enter(props) {
-    const { user, username } = useContext(UserContext);
+    const {user, username} = useContext(UserContext);
 
     return (
         <main>
-            {user ?
-                !username ? <UsernameForm /> : <SignOutButton />
-                : <SignInButton />
-            }
+            <div className="row bg-green">
+                <div className="col text-center">
+                    {user ?
+                        !username ? <UsernameForm /> : <SignOutButton />
+                        : <SignInButton />
+                    }
+                </div>
+            </div>
         </main>
     )
 }
@@ -23,8 +27,7 @@ function SignInButton() {
     const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
-        }
-        catch (error) {
+        } catch (error) {
             console.error(error);
         }
     }
@@ -46,7 +49,7 @@ function UsernameForm() {
     const [isValid, setIsValid] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const { user, username } = useContext(UserContext);
+    const {user, username} = useContext(UserContext);
 
     useEffect(() => {
         checkUsername(formValue);
@@ -91,26 +94,24 @@ function UsernameForm() {
         const usernameDoc = doc(getFirestore(), 'usernames', formValue);
 
         const batch = writeBatch(getFirestore());
-        batch.set(userDoc, { username: formValue, photoURL: user.photoURL, displayName: user.displayName });
-        batch.set(usernameDoc, { uid: user.uid })
+        batch.set(userDoc, {username: formValue, photoURL: user.photoURL, displayName: user.displayName});
+        batch.set(usernameDoc, {uid: user.uid})
 
         await batch.commit();
     }
 
-    function UsernameMessage({ username, isValid, loading }) {
+    function UsernameMessage({username, isValid, loading}) {
         if (loading) {
             return <p>Checking...</p>
-        }
-        else if (isValid) {
+        } else if (isValid) {
             return <p className="text-success">{username} is available!</p>
-        }
-        else if (username && !isValid) {
+        } else if (username && !isValid) {
             return <p className="text-danger">That username is taken!</p>
-        }
-        else {
+        } else {
             return <p></p>
         }
     }
+
     return (
         !username && (
             <section>
