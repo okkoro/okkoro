@@ -1,7 +1,14 @@
-export default function MovieTile(){
+import {Card, CardGroup, CardImg} from "react-bootstrap";
+export default function MovieTile(props){
     return (
-        <div className="card">
-            <Image src={"https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_FMjpg_UX1000_.jpg"} alt="image of movie" width={"350px"} height={"300px"}/>
+        <div>
+            <Card style={{width: "200px"}}>
+                <CardImg src={"https://image.tmdb.org/t/p/w500" + props.movie.poster_path} alt="image of movie" />
+                <CardGroup>
+                    <h5 className="card-title">{props.movie.title}</h5>
+                    <p className="card-text">{props.movie.vote_average}</p>
+                </CardGroup>
+            </Card>
         </div>
     )
 }
