@@ -19,6 +19,7 @@ export default function OkNavbar() {
                     <Link href={`/${username}`}>
                         <Button>
                             {username} &nbsp;
+                            {/* @ts-ignore */}
                             <img src={user?.photoURL} alt={"user"} height={"35rem"} className={"rounded"} />
                         </Button>
                     </Link>
