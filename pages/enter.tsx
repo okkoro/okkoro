@@ -6,6 +6,7 @@ import {doc, getDoc, getFirestore, writeBatch} from 'firebase/firestore';
 // @ts-ignore
 import debounce from 'lodash.debounce';
 
+// @ts-ignore
 export default function Enter(props) {
     const {user, username} = useContext(UserContext);
 
@@ -55,6 +56,7 @@ function UsernameForm() {
         checkUsername(formValue);
     }, [formValue])
 
+    // @ts-ignore
     const onChange = (e) => {
         const val = e.target.value.toLowerCase();
         const re = /^(?=[a-zA-Z0-9._]{3,15}$)(?!.*[_.]{2})[^_.].*[^_.]$/;
@@ -73,6 +75,7 @@ function UsernameForm() {
     }
 
     const checkUsername = useCallback(
+        // @ts-ignore
         debounce(async (username) => {
             if (username.length >= 3) {
                 const ref = doc(getFirestore(), `usernames`, username);
@@ -87,19 +90,24 @@ function UsernameForm() {
         []
     );
 
+    // @ts-ignore
     const onSubmit = async (e) => {
         e.preventDefault();
 
+        // @ts-ignore
         const userDoc = doc(getFirestore(), 'users', user.uid);
         const usernameDoc = doc(getFirestore(), 'usernames', formValue);
 
         const batch = writeBatch(getFirestore());
+        // @ts-ignore
         batch.set(userDoc, {username: formValue, photoURL: user.photoURL, displayName: user.displayName});
+        // @ts-ignore
         batch.set(usernameDoc, {uid: user.uid})
 
         await batch.commit();
     }
 
+    // @ts-ignore
     function UsernameMessage({username, isValid, loading}) {
         if (loading) {
             return <p>Checking...</p>

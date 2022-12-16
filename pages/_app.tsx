@@ -11,6 +11,7 @@ export default function App({Component, pageProps}: AppProps) {
 
     return (
         <SSRProvider>
+            {/* @ts-ignore */}
             <UserContext.Provider value={userData}>
                 <Container fluid className="bg-black" style={{height: "100vh"}}>
                     <OkNavbar />
