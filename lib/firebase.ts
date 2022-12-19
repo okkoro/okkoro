@@ -1,7 +1,7 @@
 import firebaseConfig from "./firebaseConfig";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, DocumentSnapshot } from "firebase/firestore";
 
 // Initialize firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -14,3 +14,15 @@ export const auth = getAuth(firebaseApp);
 export const googleProvider = new GoogleAuthProvider();
 
 export default firebaseApp;
+
+
+/**
+ * Converts a firestore document to JSON
+ * @param {DocumentSnapshot} doc
+ */
+export function docToJSON(doc: DocumentSnapshot) {
+    const data = doc.data();
+    return {
+        ...data
+    }
+}
