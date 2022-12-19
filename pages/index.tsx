@@ -3,6 +3,9 @@ import {getFirestore} from "firebase/firestore";
 import {query} from "@firebase/database";
 import {useState} from "react";
 import {docToJSON} from "../lib/firebase";
+import Image from "next/image";
+
+import okkoroPic from "/public/okkoro.png";
 
 const LIMIT = 10;
 
@@ -32,7 +35,9 @@ export default function Home(props: { movies: [any]; }) {
     return (
         <div className="row bg-green">
             <div className="col text-center">
-                <img src="okkoro.png" />
+
+                <Image src={okkoroPic} alt={"Logo"}/>
+
                 <h1>WELCOME TO OKKORO</h1>
                 {/*TODO: replace with proper display logic*/}
                 {movies.map((movie) => (
