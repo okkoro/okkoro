@@ -6,8 +6,9 @@ import {docToJSON} from "../lib/firebase";
 import Image from "next/image";
 
 import okkoroPic from "/public/okkoro.png";
+import MovieList from "../components/MovieList";
 
-const LIMIT = 10;
+const LIMIT = 20;
 
 export async function getServerSideProps() {
     // TODO: Modify this query to suit our needs, currently only fetches comedy movies
@@ -39,12 +40,7 @@ export default function Home(props: { movies: [any]; }) {
                 <Image src={okkoroPic} alt={"Logo"}/>
 
                 <h1>WELCOME TO OKKORO</h1>
-                {/*TODO: replace with proper display logic*/}
-                {movies.map((movie) => (
-                    <div key={movie.id}>
-                        {movie.title}
-                    </div>
-                ))}
+                <MovieList movies={movies} listTitle={"Genre"}/>
             </div>
         </div>
     )
