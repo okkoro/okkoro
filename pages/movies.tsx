@@ -21,18 +21,25 @@ export default function Home() {
             "poster_path": "/mTtgpH6UnHUtD8moRJUzfGLOZTj.jpg",
             "title": "The Last King of Scotland",
             "vote_average":3.6
+        },
+        {
+            "poster_path": "/wkSzJs7oMf8MIr9CQVICsvRfwA7.jpg",
+            "title": "Lost in Translation",
+            "vote_average":8.2
         }
     ]
     return (
         <div className="row bg-green">
-            <div className="col text-center">
-                <h1>Movies</h1>
 
+                <h1>Movies</h1>
                 {movies.map((element) =>{
-                    return(<MovieTile movie={element} />)
+                    return(
+                        <div className="col text-center">
+                        <MovieTile movie={element} />
+                        </div>
+                    )
                     })}
 
-            </div>
         </div>
     )
 }
