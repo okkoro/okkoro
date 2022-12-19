@@ -41,7 +41,7 @@ export default function Home(props: { movies: [any]; }) {
                 <h1>WELCOME TO OKKORO</h1>
                 {/*TODO: replace with proper display logic*/}
                 {movies.map((movie) => (
-                    <div>
+                    <div key={movie.id}>
                         {movie.title}
                     </div>
                 ))}
