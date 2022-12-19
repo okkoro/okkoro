@@ -34,6 +34,12 @@ export default function Home(props: { movies: [any]; }) {
             <div className="col text-center">
                 <img src="okkoro.png" />
                 <h1>WELCOME TO OKKORO</h1>
+                {/*TODO: replace with proper display logic*/}
+                {movies.map((movie) => (
+                    <div>
+                        {movie.title}
+                    </div>
+                ))}
             </div>
         </div>
     )
