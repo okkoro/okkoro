@@ -1,4 +1,5 @@
 import {Container} from "react-bootstrap";
+
 import MovieTile from "./MovieTile";
 
 type propsType = {
