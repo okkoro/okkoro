@@ -56,7 +56,8 @@ export default function Movies() {
                 <h1>Movies</h1>
                 {movies.map((element) =>{
                     return(
-                        <div className="col text-center">
+                        //TODO: use a proper key
+                        <div key={element.title} className="col text-center">
                         <MovieTile movie={element} />
                         </div>
                     )

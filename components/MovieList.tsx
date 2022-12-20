@@ -16,7 +16,7 @@ export default function MovieList(props: propsType) {
                 {/*TODO: replace with proper display logic*/}
                 {props.movies &&
                     props.movies.map((movie) => (
-                        <MovieTile movie={movie}/>
+                        <MovieTile key={movie.id} movie={movie}/>
                     ))
                 }
             </div>

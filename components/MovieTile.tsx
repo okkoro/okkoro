@@ -1,5 +1,7 @@
 import {Card, CardImg} from "react-bootstrap";
-export default function MovieTile(props){
+
+//TODO: proper movie type
+export default function MovieTile(props: any){
 
     return (
         <div style={{margin:"1rem"}}>
