@@ -1,9 +1,9 @@
-import {Card, CardGroup, CardImg} from "react-bootstrap";
+import {Card, CardImg} from "react-bootstrap";
 export default function MovieTile(props){
 
     return (
-        <div>
-            <Card className="bg-light-gray"style={{width:"12rem"}}>
+        <div style={{margin:"1rem"}}>
+            <Card className="bg-light-gray" style={{width:"14rem"}}>
                 <CardImg src={"https://image.tmdb.org/t/p/w500" + props.movie.poster_path} alt="image of movie" />
                 <Card.Body>
                     <Card.Title>{props.movie.title}</Card.Title>
