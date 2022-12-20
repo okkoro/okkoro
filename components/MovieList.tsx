@@ -1,5 +1,7 @@
 import {Container} from "react-bootstrap";
 
+import MovieTile from "./MovieTile";
+
 type propsType = {
     listTitle: string;
     movies: [any];
@@ -14,9 +16,7 @@ export default function MovieList(props: propsType) {
                 {/*TODO: replace with proper display logic*/}
                 {props.movies &&
                     props.movies.map((movie) => (
-                        <div key={movie.id} className="card card-block mx-2" style={{minWidth: "300px"}}>
-                            &nbsp; {movie.title} &nbsp;
-                        </div>
+                        <MovieTile key={movie.id} movie={movie}/>
                     ))
                 }
             </div>
