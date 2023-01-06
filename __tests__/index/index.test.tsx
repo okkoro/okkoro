@@ -45,6 +45,7 @@ const movies = [
 ]
 
 
+
 describe('Home', () => {
     it('renders a heading', () => {
         // @ts-ignore
