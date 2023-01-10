@@ -1,15 +1,21 @@
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {UserContext} from "../../lib/context";
 import {Button, Col, Row} from "react-bootstrap";
-import {Console} from "inspector";
+import {getRecommendation} from "../../lib/recommendations"
+import MovieList from "../../components/MovieList";
 
 
 export default function Page() {
     const { user, username } = useContext(UserContext);
+    let [movieState, setMovieState] = useState([]);
 
-    const callApi = function (){
-        alert("Hello")
+    const callApi = async function (){
+        var res = await getRecommendation();
+        // @ts-ignore
+        movieState = [res.data];
+        setMovieState(movieState);
     }
+    // @ts-ignore
     // @ts-ignore
     // @ts-ignore
     // @ts-ignore
@@ -23,7 +29,11 @@ export default function Page() {
             </Row>
             <Row>
                 <Col className="flex-row-reverse">
-                    <div id="MovieResult"></div>
+                    <div>
+                        {/*@ts-ignore*/}
+                        <MovieList movies={movieState} listTitle={""}/>
+                    </div>
+
                     {/*@ts-ignore*/}
                     <Button onClick={() => callApi()}>Get Recommendations!</Button>
                 </Col>
