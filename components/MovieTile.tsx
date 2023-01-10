@@ -4,7 +4,7 @@ import {Card, CardImg} from "react-bootstrap";
 export default function MovieTile(props: any){
 
     return (
-        <div style={{margin:"1rem"}}>
+        <div style={{margin:"1rem"}} data-cy={`MovieTile`}>
             <Card className="bg-light-gray" style={{width:"14rem"}}>
                 <CardImg src={"https://image.tmdb.org/t/p/w500" + props.movie.poster_path} alt="image of movie" />
                 <Card.Body>

@@ -3,9 +3,9 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['image.tmdb.org']
+    domains: ['image.tmdb.org', 'ssl.gstatic.com']
   }
 
 }
 
-module.exports = nextConfig
+export default nextConfig
