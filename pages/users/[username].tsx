@@ -1,13 +1,18 @@
 import {useContext} from "react";
 import {UserContext} from "../../lib/context";
+import banner from "public/okkoro_banner.png";
+import Image from 'next/image'
 
-export default function Page() {
+export default function Profile() {
     const { user, username } = useContext(UserContext);
 
+
+
+    // @ts-ignore
     return (
         <div className="row bg-green">
             <div className="col text-center">
-                <img src="okkoro.png" />
+                <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
                 <h1>Welcome {username}</h1>
             </div>
         </div>
