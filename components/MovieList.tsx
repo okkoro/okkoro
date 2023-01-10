@@ -4,7 +4,7 @@ import MovieTile from "./MovieTile";
 
 type propsType = {
     listTitle: string;
-    movies: [any];
+    movies: [Movie];
 }
 
 export default function MovieList(props: propsType) {
@@ -15,7 +15,7 @@ export default function MovieList(props: propsType) {
             <div className={"d-flex flex-row flex-nowrap overflow-auto"}>
                 {/*TODO: replace with proper display logic*/}
                 {props.movies &&
-                    props.movies.map((movie) => (
+                    props.movies.map((movie ) => (
                         <MovieTile key={movie.id} movie={movie}/>
                     ))
                 }
