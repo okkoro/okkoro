@@ -30,8 +30,8 @@ export async function getServerSideProps() {
 
 }
 
-export default function Home(props: { movies: [any]; }) {
-    const [movies, setMovies] = useState(props.movies)
+export default function Home(props: { movies: [Movie]; }) {
+    const [movies, setMovies] = useState(props.movies);
 
     return (
         <div className="row bg-green">
