@@ -8,7 +8,6 @@ export default function Profile() {
 
 
 
-    // @ts-ignore
     return (
         <div className="row bg-green">
             <div className="col text-center">
