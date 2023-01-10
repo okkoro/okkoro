@@ -6,5 +6,5 @@ type Movie = {
     vote_average: string | number;
     overview: string;
     original_language: string;
-    genre_ids: [number];
+    genre_ids: number[];
 };
