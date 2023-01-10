@@ -5,6 +5,7 @@ import {collection, getDocs, where} from "@firebase/firestore";
 import {getFirestore} from "firebase/firestore";
 import {query} from "@firebase/database";
 import {docToJSON} from "../../lib/firebase";
+import {useRouter} from "next/router";
 
 const LIMIT = 20;
 
@@ -38,10 +39,21 @@ export default function Profile() {
 
     //const { user, user } = useContext(UserContext);
 
-    //const router = useRouter()
-    //const { user } = router.query
 
-    const [user, setUser] = useState("maximilien")
+
+    const [user, setUser] = useState("")
+
+    const router = useRouter()
+    const { username } = router.query
+
+
+
+    if (user == ""){
+        // @ts-ignore
+        setUser(username)
+    }
+
+    console.log("url: " + user)
 
     const [listedMovies, setListMovies] = useState([])
 
@@ -49,7 +61,6 @@ export default function Profile() {
     useEffect(()=>{
         async function fetchListedMovies(){
             await user
-            console.log(user+" in")
             const ref = collection(getFirestore(), 'users');
             const genreQuery = query(
                 // @ts-ignore
@@ -62,15 +73,16 @@ export default function Profile() {
 
             setListMovies(userInfo[0].listedMovies)
         }
-        fetchListedMovies()
+        if(user != "" && user!=undefined) {
+            fetchListedMovies()
+        }
 
-    },[user])
+    },[username])
 
 
 
 
 
-    console.log(user+" out")
 
     return (
         <div className="row bg-green">
