@@ -1,68 +1,45 @@
-import MovieTile from "../components/MovieTile";
-import {doc, getFirestore} from "firebase/firestore";
-
-// export async function getServerSideProps(){
-//     const ref = doc(getFirestore(), `genres`);
-//     const queryGenres = query(
-//         ref,
-//         where('id','')
-//     )
-// }
-
-export default function Movies() {
+import {getFirestore} from "firebase/firestore";
+import {collection, getDocs, limit, orderBy, where} from "@firebase/firestore";
+import {query} from "@firebase/database";
+import {docToJSON} from "../lib/firebase";
+import {useState} from "react";
+import MovieList from "../components/MovieList";
 
 
+const LIMIT = 20;
 
-    let movies = [
-        {
-            "poster_path": "/sDWARc5aYTUKE8Y2FIGVgWXuI4K.jpg",
-            "title": "Twilight Zone: The Movie",
-            "release_date":"1998-08-28",
-            "vote_average":6.8,
-            "genres": [14]
-        },
-        {
-            "poster_path": "/wkSzJs7oMf8MIr9CQVICsvRfwA7.jpg",
-            "title": "Lost in Translation",
-            "release_date":"1998-08-28",
-            "vote_average":8.2,
-            "genres": [12]
-        },
-        {
-            "poster_path": "/onmAHliMDEWTwksC7pAUpyVRZti.jpg",
-            "title": "Barely Legal",
-            "release_date":"1990-08-28",
-            "vote_average":9.1,
-            "genres": [12,14]
-        },
-        {
-            "poster_path": "/mTtgpH6UnHUtD8moRJUzfGLOZTj.jpg",
-            "title": "The Last King of Scotland",
-            "release_date":"2003-08-28",
-            "vote_average":3.6,
-            "genres": [12,14,16]
-        },
-        {
-            "poster_path": "/wkSzJs7oMf8MIr9CQVICsvRfwA7.jpg",
-            "title": "Lost in Translation",
-            "release_date":"1999-08-28",
-            "vote_average":8.2,
-            "genres": [12,14]
-        }
-    ]
+export async function getServerSideProps() {
+    // TODO: Modify this query to suit our needs, currently only fetches comedy movies
+    const ref = collection(getFirestore(), 'movies');
+    const genreQuery = query(
+        // @ts-ignore
+        ref,
+        where('genre_ids', "array-contains", 35),
+        orderBy("id"),
+        limit(LIMIT)
+    )
+
+    // @ts-ignore
+    const movies = (await getDocs(genreQuery)).docs.map(docToJSON);
+
+    return {
+        props: {movies}
+    }
+
+}
+
+export default function Movies(props: { movies: [any]; }) {
+
+    const [movies, setMovies] = useState(props.movies)
+
     return (
         <div className="row bg-green">
+            <div className="col text-center">
+
 
                 <h1>Movies</h1>
-                {movies.map((element) =>{
-                    return(
-                        //TODO: use a proper key
-                        <div key={element.title} className="col text-center">
-                        <MovieTile movie={element} />
-                        </div>
-                    )
-                    })}
-
+                <MovieList movies={movies} listTitle={"Comedies"}/>
+            </div>
         </div>
     )
 }
