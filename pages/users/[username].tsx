@@ -41,54 +41,48 @@ export default function Profile() {
 
 
 
-    const [user, setUser] = useState("")
-
     const router = useRouter()
-    const { username } = router.query
-
-
-
-    if (user == ""){
-        // @ts-ignore
-        setUser(username)
-    }
-
-    console.log("url: " + user)
+    const {username} = router.query
 
     const [listedMovies, setListMovies] = useState([])
 
-    // @ts-ignore
-    useEffect(()=>{
-        async function fetchListedMovies(){
-            await user
-            const ref = collection(getFirestore(), 'users');
-            const genreQuery = query(
-                // @ts-ignore
-                ref,
-                where('username', "==", user),
-
-            )
+    async function fetchListedMovies() {
+        const ref = collection(getFirestore(), 'users');
+        const userInfoQuery = query(
             // @ts-ignore
-            const userInfo = (await getDocs(genreQuery)).docs.map(docToJSON);
+            ref,
+            where('username', "==", username),
+        )
+        // @ts-ignore
+        const userInfo = (await getDocs(userInfoQuery)).docs.map(docToJSON);
 
-            setListMovies(userInfo[0].listedMovies)
+        console.table(userInfo);
+
+        setListMovies(userInfo[0].listedMovies)
+
+        fetchMovieLists()
+    }
+
+    async function fetchMovieLists(){
+        for(const movie in listedMovies){
+
         }
-        if(user != "" && user!=undefined) {
+    }
+
+    // @ts-ignore
+    useEffect(() => {
+        if (username) {
             fetchListedMovies()
         }
 
-    },[username])
-
-
-
-
+    }, [username])
 
 
     return (
         <div className="row bg-green">
             <div className="col text-center">
                 <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
-                <h1>Welcome {user}</h1>
+                <h1>Welcome {username}</h1>
                 {listedMovies.length > 0 ? <p>something</p> : <p>nothing</p>}
                 {/*<MovieList movies={movies} listTitle={"Liked Movies"}/>*/}
 
