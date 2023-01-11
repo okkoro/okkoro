@@ -35,7 +35,7 @@ export default function Page() {
                     </div>
 
                     {/*@ts-ignore*/}
-                    <Button onClick={() => callApi()}>Get Recommendations!</Button>
+                    <Button onClick={() => callApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
                 </Col>
             </Row>
         </div>
