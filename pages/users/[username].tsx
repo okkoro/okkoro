@@ -4,8 +4,10 @@ import {Button, Col, Row} from "react-bootstrap";
 import {getRecommendation} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
 
+import banner from "public/okkoro_banner.png";
+import Image from 'next/image'
 
-export default function Page() {
+export default function Profile() {
     const { user, username } = useContext(UserContext);
     let [movieState, setMovieState] = useState([]);
 
@@ -23,7 +25,7 @@ export default function Page() {
         <div className="bg-green">
             <Row>
                 <Col className="text-center">
-                    <img src="okkoro.png" />
+                    <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
                     <h1>Welcome {username}</h1>
                 </Col>
             </Row>
