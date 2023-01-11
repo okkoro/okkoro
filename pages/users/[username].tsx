@@ -7,32 +7,7 @@ import {query} from "@firebase/database";
 import {docToJSON} from "../../lib/firebase";
 import {useRouter} from "next/router";
 
-const LIMIT = 20;
 
-// export async function getServerSideProps(context) {
-//     const { username } = context.query;
-//
-//     const ref = collection(getFirestore(), 'users');
-//     const genreQuery = query(
-//         // @ts-ignore
-//         ref,
-//         where('username', "==", username),
-//
-//     )
-//
-//     // @ts-ignore
-//     const user = (await getDocs(genreQuery)).docs.map(docToJSON);
-//
-//
-//     return {
-//         props: {user}
-//     }
-//
-// }
-
-// type propsType = {
-//     user: any;
-// }
 
 
 export default function Profile() {
@@ -53,11 +28,13 @@ export default function Profile() {
             ref,
             where('username', "==", username),
         )
+
         // @ts-ignore
         const userInfo = (await getDocs(userInfoQuery)).docs.map(docToJSON);
 
         console.table(userInfo);
 
+        // @ts-ignore
         setListMovies(userInfo[0].listedMovies)
 
         fetchMovieLists()
@@ -65,7 +42,16 @@ export default function Profile() {
 
     async function fetchMovieLists(){
         for(const movie in listedMovies){
+            console.log(movie)
+            const ref = collection(getFirestore(), 'movies');
+            const userInfoQuery = query(
+                // @ts-ignore
+                ref,
+                where('id', "==", movie),
+            )
 
+            // @ts-ignore
+            const userInfo = (await getDocs(userInfoQuery)).docs.map(docToJSON);
         }
     }
 
