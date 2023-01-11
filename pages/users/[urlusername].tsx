@@ -9,25 +9,45 @@ import {useRouter} from "next/router";
 import {Button, Col, Row} from "react-bootstrap";
 import {getRecommendation} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
+import {UserContext} from "../../lib/context";
 
 
 
 
 export default function Profile() {
 
-    //const { user, user } = useContext(UserContext);
-    let [movieState, setMovieState] = useState([]);
-
-    const callApi = async function (){
-        var res = await getRecommendation();
-        // @ts-ignore
-        movieState = [res.data];
-        setMovieState(movieState);
-    }
-
+    const { user, username } = useContext(UserContext);
 
     const router = useRouter()
-    const {username} = router.query
+    const {urlusername} = router.query
+
+
+    console.log(urlusername)
+
+
+
+    return (
+
+        <div className="bg-green">
+            {urlusername == username ? <SignedInProfile urlusername={"maximilien"}/> : <WrongProfile/>}
+        </div>
+    )
+
+
+}
+
+function WrongProfile(){
+    return (
+        <div>
+            <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
+            <h1>Woops! This isn't your account</h1>
+        </div>
+    )
+}
+
+function SignedInProfile(props){
+    const urlusername = props.urlusername
+    let [movieState, setMovieState] = useState([]);
 
     const [listedMovies, setListMovies] = useState([])
 
@@ -36,7 +56,7 @@ export default function Profile() {
         const userInfoQuery = query(
             // @ts-ignore
             ref,
-            where('username', "==", username),
+            where('username', "==", urlusername),
         )
 
         // @ts-ignore
@@ -67,19 +87,25 @@ export default function Profile() {
 
     // @ts-ignore
     useEffect(() => {
-        if (username) {
+        if (urlusername) {
             fetchListedMovies()
         }
 
-    }, [username])
+    }, [urlusername])
 
+    const callApi = async function (){
+        var res = await getRecommendation();
+        // @ts-ignore
+        movieState = [res.data];
+        setMovieState(movieState);
+    }
 
-    return (
-        <div className="bg-green">
+    return(
+        <div>
             <Row>
                 <Col className="text-center">
                     <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
-                    <h1>Welcome {username}</h1>
+                    <h1>Welcome {urlusername}</h1>
                 </Col>
             </Row>
             <Row>
