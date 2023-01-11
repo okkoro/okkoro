@@ -14,7 +14,7 @@ export default function Profile() {
     const callApi = async function (){
         var res = await getRecommendation();
         // @ts-ignore
-        movieState = [res.data];
+        movieState = res.data;
         setMovieState(movieState);
     }
     // @ts-ignore
