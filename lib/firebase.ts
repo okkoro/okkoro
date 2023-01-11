@@ -2,6 +2,8 @@ import firebaseConfig from "./firebaseConfig";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore, DocumentSnapshot } from "firebase/firestore";
+import {collection, getDocs, limit, orderBy, where} from "@firebase/firestore";
+import {query} from "@firebase/database";
 
 // Initialize firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -15,7 +17,6 @@ export const googleProvider = new GoogleAuthProvider();
 
 export default firebaseApp;
 
-
 /**
  * Converts a firestore document to JSON
  * @param {DocumentSnapshot} doc
@@ -25,4 +26,17 @@ export function docToJSON(doc: DocumentSnapshot) {
     return {
         ...data
     }
+}
+
+export async function getMovieById(id : number) {
+    const ref = collection(getFirestore(), 'movies');
+    const genreQuery = query(
+        // @ts-ignore
+        ref,
+        where('id', "==", id),
+        limit(1)
+    )
+
+    // @ts-ignore
+    return docToJSON((await getDocs(genreQuery)).docs[0]);
 }
