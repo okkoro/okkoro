@@ -1,7 +1,7 @@
 describe("Get Recommendations", () => {
     //TODO: Implement Login
     beforeEach(() => {
-        cy.visit("/clementcadieux");
+        cy.visit("/users/clementcadieux");
     })
 
     it("should click on button", () => {
