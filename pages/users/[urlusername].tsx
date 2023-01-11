@@ -50,6 +50,7 @@ function SignedInProfile(props: { urlusername: any; }){
     let [movieState, setMovieState] = useState([]);
 
     const [listedMovies, setListMovies] = useState([])
+    const [movieLists, setMovieLists] = useState([])
 
     async function fetchListedMovies() {
         const ref = collection(getFirestore(), 'users');
@@ -71,6 +72,9 @@ function SignedInProfile(props: { urlusername: any; }){
     }
 
     async function fetchMovieLists(){
+        for(const movie in listedMovies){
+
+        }
         for(const movie in listedMovies){
             console.log(movie)
             const ref = collection(getFirestore(), 'movies');
