@@ -1,4 +1,4 @@
-import {Context, useContext, useEffect, useState} from "react";
+import { useContext, useEffect, useState} from "react";
 import banner from "public/okkoro_banner.png";
 import Image from 'next/image'
 import {collection, getDocs, where} from "@firebase/firestore";
@@ -16,7 +16,7 @@ import {UserContext} from "../../lib/context";
 
 export default function Profile() {
 
-    const { user, username } = useContext(UserContext);
+    const { username } = useContext(UserContext);
 
     const router = useRouter()
     const {urlusername} = router.query
@@ -45,7 +45,7 @@ function WrongProfile(){
     )
 }
 
-function SignedInProfile(props){
+function SignedInProfile(props: { urlusername: any; }){
     const urlusername = props.urlusername
     let [movieState, setMovieState] = useState([]);
 
