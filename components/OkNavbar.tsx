@@ -11,14 +11,14 @@ export default function OkNavbar() {
     return (
         <Navbar>
             <NavbarBrand>
-                <Link href={"."}>
+                <Link href={"/"}>
                     <Image src={logo} alt={"okkoro logo"} height={30}/>
                 </Link>
             </NavbarBrand>
 
             <Nav>
                 {username && (
-                    <Link href={`/${username}`}>
+                    <Link href={`/users/${username}`}>
                         <Button>
                             {username} &nbsp;
                             {/* @ts-ignore */}
