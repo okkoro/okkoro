@@ -5,6 +5,7 @@ import {useCallback, useContext, useEffect, useState} from "react";
 import {doc, getDoc, getFirestore, writeBatch} from 'firebase/firestore';
 // @ts-ignore
 import debounce from 'lodash.debounce';
+import Image from "next/image";
 
 // @ts-ignore
 export default function Enter(props) {
@@ -35,7 +36,7 @@ function SignInButton() {
 
     return (
         <button className="btn-google" onClick={signInWithGoogle}>
-            <img src={"https://ssl.gstatic.com/images/branding/googleg/2x/googleg_standard_color_64dp.png"} />
+            <Image height="32" width="32" src={"https://ssl.gstatic.com/images/branding/googleg/2x/googleg_standard_color_64dp.png"}  alt={"google"}/>
             Sign in with Google
         </button>
     );

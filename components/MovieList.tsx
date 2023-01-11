@@ -10,7 +10,7 @@ type propsType = {
 export default function MovieList(props: propsType) {
 
     return (
-        <Container fluid>
+        <Container fluid data-cy={`${props.listTitle}-MovieList`}>
             <h2>{props.listTitle}</h2>
             <div className={"d-flex flex-row flex-nowrap overflow-auto"}>
                 {/*TODO: replace with proper display logic*/}
