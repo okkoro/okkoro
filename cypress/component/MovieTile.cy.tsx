@@ -1,5 +1,5 @@
 import React from 'react'
-import MovieTile from "./MovieTile";
+import MovieTile from "../../components/MovieTile";
 
 
 let movie = {
