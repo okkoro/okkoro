@@ -1,7 +1,7 @@
 import {useRouter} from "next/router";
 import {getMovieById} from "../../../lib/firebase";
 import {useState} from "react";
-import movies from "../../../lib/dummydata/dummymovies";
+import {Col, Container, Image, Row} from "react-bootstrap";
 
 export default function MovieDetails() {
     const {movieId} = useRouter().query;
@@ -9,10 +9,7 @@ export default function MovieDetails() {
     const [movieDetails, setMovieDetails] = useState(null as any);
     const [movieGenres, setMovieGenres] = useState(null);
 
-    // console.log("before is string" + movieId);
-
-    if (typeof movieId === "string") {
-        console.log("is string");
+    if (typeof movieId === "string" && (movieDetails == null || movieDetails.id != movieId)) {
         getMovieById(parseInt(movieId))
             .then((res) => {
                 let newMovie = res as Movie;
@@ -22,16 +19,28 @@ export default function MovieDetails() {
                 // @ts-ignore
                 setMovieDetails(movieDetails);
                 setMovieGenres(movieGenres)
-
             })
     }
 
     return (
         <div className="row bg-green">
-            <div className="col text-center">
+            <div className="col">
                 {movieDetails != null && (
-                    <h1>Movie: {movieDetails.title}</h1>
+                    <Container>
 
+                        <Row>
+                            <Col>
+                                <Image className={"w-50"} src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path} alt="image of movie" />
+                            </Col>
+                            <Col>
+                                <h1>{movieDetails.title}</h1>
+                                <p>{movieDetails.release_date}</p>
+                                <p>{movieDetails.vote_average}/10</p>
+                                <p>{movieGenres}</p>
+                                <p>{movieDetails.overview}</p>
+                            </Col>
+                        </Row>
+                    </Container>
                 )}
             </div>
         </div>
