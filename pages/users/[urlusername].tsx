@@ -23,9 +23,9 @@ export default function Profile() {
 
     return (
 
-        <Container fluid className="bg-green">
+        <div className="row bg-green">
             {urlusername == username ? <SignedInProfile urlusername={"maximilien"}/> : <WrongProfile/>}
-        </Container>
+        </div>
     )
 
 
