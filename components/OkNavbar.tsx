@@ -16,7 +16,13 @@ export default function OkNavbar() {
                 </Link>
             </NavbarBrand>
 
-            <Nav>
+            <Nav className={"me-auto"}>
+                <Link data-cy={"Movies-NavButton"} href={`/movies`} className={'text-decoration-none text-green'} style={{fontSize: "1.5rem"}}>
+                    | Movies
+                </Link>
+            </Nav>
+
+            <Nav className={"ms-2"}>
                 {username && (
                     <Link href={`/users/${username}`}>
                         <Button>
