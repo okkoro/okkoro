@@ -32,7 +32,7 @@ export default function MovieDetails() {
                                 <Image className={"w-75 p-3"} style={{borderRadius: 25}} src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path} alt="image of movie" />
                             </Col>
                             <Col className={"col-lg-9 col-md-6"}>
-                                <h1>{movieDetails.title}</h1>
+                                <h1 data-cy={`MovieTitle`}>{movieDetails.title}</h1>
                                 <p>{movieDetails.release_date}</p>
                                 <p>{movieDetails.vote_average}/10</p>
                                 <p>{movieGenres}</p>
