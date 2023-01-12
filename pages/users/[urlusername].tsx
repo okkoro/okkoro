@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import banner from "public/okkoro_banner.png";
 import Image from 'next/image'
-import {collection, getDocs, where} from "@firebase/firestore";
+import {collection, getDocs, orderBy, where} from "@firebase/firestore";
 import {getFirestore} from "firebase/firestore";
 import {query} from "@firebase/database";
 import {docToJSON} from "../../lib/firebase";
@@ -14,7 +14,7 @@ import {UserContext} from "../../lib/context";
 
 export default function Profile() {
 
-    const { username } = useContext(UserContext);
+    const {username} = useContext(UserContext);
 
     const router = useRouter()
     const {urlusername} = router.query
@@ -30,16 +30,16 @@ export default function Profile() {
 
 }
 
-function WrongProfile(){
+function WrongProfile() {
     return (
         <div>
             <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
-            <h1>Woops! This isn't your account</h1>
+            <h1>{"Woops! This isn't your account"}</h1>
         </div>
     )
 }
 
-function SignedInProfile(props: { urlusername: any; }){
+function SignedInProfile(props: { urlusername: any; }) {
     const urlusername = props.urlusername
 
     //recoms
@@ -64,6 +64,24 @@ function SignedInProfile(props: { urlusername: any; }){
         return userInfo.listedMovies;
     }
 
+    async function fetchMovieDetailsForList(movieIds: []) {
+        console.log("DBCALLED!")
+        const ref = collection(getFirestore(), 'movies');
+        const searchQuery = query(
+            // @ts-ignore
+            ref,
+            where('id', "in", movieIds),
+            orderBy("title")
+        )
+
+
+
+        // console.table(userInfo);
+
+        // @ts-ignore
+        return (await getDocs(searchQuery)).docs.map(docToJSON);
+    }
+
     if (typeof urlusername === "string" && userMasterList == null) {
         fetchMasterList(urlusername)
             .then((res) => {
@@ -71,15 +89,8 @@ function SignedInProfile(props: { urlusername: any; }){
             })
     }
 
-    // @ts-ignore
-    useEffect(() => {
-        if (urlusername) {
-            fetchListedMovies()
-        }
-
-    }, [urlusername])
-
-    const callApi = async function (){
+    //recom
+    const callApi = async function () {
         var res = await getRecommendation();
         // @ts-ignore
         movieState = [res.data];
@@ -128,7 +139,20 @@ function SignedInProfile(props: { urlusername: any; }){
                     <div>
                         {/*//@ts-ignore*/}
                         <MovieList movies={movieState} listTitle={""}/>
-                        {listedMovies.length > 0 ? <p>something</p> : <p>nothing</p>}
+                        {userMasterList != null && userMasterList.length > 0 ? (<div>
+                            {Array.from(listList).map((list) => {
+                                return <div key={list[0]}>
+
+                                    <b>{list[0]}</b>
+                                    {list[1].map((movie: number) => {
+                                        return (<div key={movie}>{movie}</div>)
+                                    })}
+                                </div>
+                            })}
+
+
+
+                        </div>) : <p>nothing</p>}
                     </div>
 
                     {/*@ts-ignore*/}
