@@ -1,7 +1,10 @@
 import {Card, CardImg} from "react-bootstrap";
 
-//TODO: proper movie type
-export default function MovieTile(props: any){
+type propsType = {
+    movie: Movie;
+}
+
+export default function MovieTile(props: propsType){
 
     return (
         <div style={{margin:"1rem"}} data-cy={`MovieTile`}>
