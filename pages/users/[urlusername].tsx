@@ -1,15 +1,16 @@
 import {useContext, useState} from "react";
 import banner from "public/okkoro_banner.png";
 import Image from 'next/image'
-import {collection, getDocs, orderBy, where} from "@firebase/firestore";
+import {collection, getDocs, where} from "@firebase/firestore";
 import {getFirestore} from "firebase/firestore";
 import {query} from "@firebase/database";
 import {docToJSON} from "../../lib/firebase";
 import {useRouter} from "next/router";
-import {Button, Col, Row} from "react-bootstrap";
+import {Button, Col, Container, Row} from "react-bootstrap";
 import {getRecommendation} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
 import {UserContext} from "../../lib/context";
+import ProfileMovieList from "../../components/ProfileMovieList";
 
 
 export default function Profile() {
@@ -22,9 +23,9 @@ export default function Profile() {
 
     return (
 
-        <div className="bg-green">
+        <Container fluid className="bg-green">
             {urlusername == username ? <SignedInProfile urlusername={"maximilien"}/> : <WrongProfile/>}
-        </div>
+        </Container>
     )
 
 
@@ -46,7 +47,6 @@ function SignedInProfile(props: { urlusername: any; }) {
     let [movieState, setMovieState] = useState([]);
 
     const [userMasterList, setUserMasterList] = useState(null as (any[] | null))
-    const [finalLists, setFinalLists] = useState(null)
 
     async function fetchMasterList(urlUsername: string) {
         console.log("DBCALLED!")
@@ -65,23 +65,7 @@ function SignedInProfile(props: { urlusername: any; }) {
         return userInfo.listedMovies;
     }
 
-    async function fetchMovieDetailsForList(movieIds: []) {
-        console.log("DBCALLED!")
-        const ref = collection(getFirestore(), 'movies');
-        const searchQuery = query(
-            // @ts-ignore
-            ref,
-            where('id', "in", movieIds),
-            orderBy("title")
-        )
 
-
-
-        // console.table(userInfo);
-
-        // @ts-ignore
-        return (await getDocs(searchQuery)).docs.map(docToJSON);
-    }
 
     if (typeof urlusername === "string" && userMasterList == null) {
         fetchMasterList(urlusername)
@@ -116,14 +100,6 @@ function SignedInProfile(props: { urlusername: any; }) {
         })
     }
 
-    if (listList.size && !finalLists) {
-        listList.forEach((ids,list)=>{
-            fetchMovieDetailsForList(listList.get(list))
-                .then((res) => {
-                    listList.set(list,res);
-                })
-        })
-    }
     console.log(listList)
     return (
         <div>
@@ -140,6 +116,7 @@ function SignedInProfile(props: { urlusername: any; }) {
                         <MovieList movies={movieState} listTitle={""}/>
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list) => {
+                                return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]}/>
                                 return <div key={list[0]}>
                                     <b>{list[0]}</b>
                                     {list[1].map((movie: number) => {
