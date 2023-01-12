@@ -27,12 +27,11 @@ export default function MovieDetails() {
             <div className="col">
                 {movieDetails != null && (
                     <Container>
-
                         <Row>
                             <Col>
-                                <Image className={"w-50"} src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path} alt="image of movie" />
+                                <Image className={"w-75 p-3"} style={{borderRadius: 25}} src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path} alt="image of movie" />
                             </Col>
-                            <Col>
+                            <Col className={"col-lg-9 col-md-6"}>
                                 <h1>{movieDetails.title}</h1>
                                 <p>{movieDetails.release_date}</p>
                                 <p>{movieDetails.vote_average}/10</p>
