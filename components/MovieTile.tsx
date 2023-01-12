@@ -6,6 +6,7 @@ type propsType = {
 
 export default function MovieTile(props: propsType){
 
+    console.log(props)
     return (
         <div style={{margin:"1rem"}} data-cy={`MovieTile`}>
             <Card className="bg-light-gray" style={{width:"14rem"}}>

@@ -46,6 +46,7 @@ function SignedInProfile(props: { urlusername: any; }) {
     let [movieState, setMovieState] = useState([]);
 
     const [userMasterList, setUserMasterList] = useState(null as (any[] | null))
+    const [finalLists, setFinalLists] = useState(null)
 
     async function fetchMasterList(urlUsername: string) {
         console.log("DBCALLED!")
@@ -115,17 +116,15 @@ function SignedInProfile(props: { urlusername: any; }) {
         })
     }
 
-    if (listList.size) {
+    if (listList.size && !finalLists) {
         listList.forEach((ids,list)=>{
-            fetchMovieDetailsForList(listList.get("liked"))
+            fetchMovieDetailsForList(listList.get(list))
                 .then((res) => {
                     listList.set(list,res);
                 })
         })
-        console.log(listList)
     }
-
-
+    console.log(listList)
     return (
         <div>
             <Row>
@@ -142,9 +141,9 @@ function SignedInProfile(props: { urlusername: any; }) {
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list) => {
                                 return <div key={list[0]}>
-
                                     <b>{list[0]}</b>
                                     {list[1].map((movie: number) => {
+                                        console.log(listList)
                                         return (<div key={movie}>{movie}</div>)
                                     })}
                                 </div>
