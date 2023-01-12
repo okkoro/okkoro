@@ -12,19 +12,13 @@ import MovieList from "../../components/MovieList";
 import {UserContext} from "../../lib/context";
 
 
-
-
 export default function Profile() {
 
     const { username } = useContext(UserContext);
 
     const router = useRouter()
     const {urlusername} = router.query
-
-
-    console.log(urlusername)
-
-
+    // console.log(urlusername)
 
     return (
 
@@ -47,46 +41,34 @@ function WrongProfile(){
 
 function SignedInProfile(props: { urlusername: any; }){
     const urlusername = props.urlusername
+
+    //recoms
     let [movieState, setMovieState] = useState([]);
 
-    const [listedMovies, setListMovies] = useState([])
-    const [movieLists, setMovieLists] = useState([])
+    const [userMasterList, setUserMasterList] = useState(null as (any[] | null))
 
-    async function fetchListedMovies() {
+    async function fetchMasterList(urlUsername: string) {
+        console.log("DBCALLED!")
         const ref = collection(getFirestore(), 'users');
         const userInfoQuery = query(
             // @ts-ignore
             ref,
-            where('username', "==", urlusername),
+            where('username', "==", urlUsername)
         )
 
         // @ts-ignore
-        const userInfo = (await getDocs(userInfoQuery)).docs.map(docToJSON);
+        const userInfo = docToJSON((await getDocs(userInfoQuery)).docs[0]);
 
-        console.table(userInfo);
+        // console.table(userInfo);
 
-        // @ts-ignore
-        setListMovies(userInfo[0].listedMovies)
-
-        fetchMovieLists()
+        return userInfo.listedMovies;
     }
 
-    async function fetchMovieLists(){
-        for(const movie in listedMovies){
-
-        }
-        for(const movie in listedMovies){
-            console.log(movie)
-            const ref = collection(getFirestore(), 'movies');
-            const userInfoQuery = query(
-                // @ts-ignore
-                ref,
-                where('id', "==", movie),
-            )
-
-            // @ts-ignore
-            const userInfo = (await getDocs(userInfoQuery)).docs.map(docToJSON);
-        }
+    if (typeof urlusername === "string" && userMasterList == null) {
+        fetchMasterList(urlusername)
+            .then((res) => {
+                setUserMasterList(res);
+            })
     }
 
     // @ts-ignore
@@ -104,7 +86,36 @@ function SignedInProfile(props: { urlusername: any; }){
         setMovieState(movieState);
     }
 
-    return(
+    //Create list of all lists that user has
+    let listList = new Map();
+
+    if (userMasterList) {
+        userMasterList.forEach((item) => {
+            item.lists.forEach((list: String) => {
+                let mapList: string[] = [];
+
+                if (listList.has(list))
+                    mapList = listList.get(list);
+
+                mapList.push(item.movieId);
+
+                listList.set(list, mapList);
+            })
+        })
+    }
+
+    if (listList.size) {
+        listList.forEach((ids,list)=>{
+            fetchMovieDetailsForList(listList.get("liked"))
+                .then((res) => {
+                    listList.set(list,res);
+                })
+        })
+        console.log(listList)
+    }
+
+
+    return (
         <div>
             <Row>
                 <Col className="text-center">
@@ -115,7 +126,7 @@ function SignedInProfile(props: { urlusername: any; }){
             <Row>
                 <Col className="flex-row-reverse">
                     <div>
-                        {/*@ts-ignore*/}
+                        {/*//@ts-ignore*/}
                         <MovieList movies={movieState} listTitle={""}/>
                         {listedMovies.length > 0 ? <p>something</p> : <p>nothing</p>}
                     </div>
