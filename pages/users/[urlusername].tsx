@@ -24,7 +24,7 @@ export default function Profile() {
     return (
 
         <div className="row bg-green">
-            {urlusername == username ? <SignedInProfile urlusername={"maximilien"}/> : <WrongProfile/>}
+            {urlusername == username ? <SignedInProfile urlusername={urlusername}/> : <WrongProfile/>}
         </div>
     )
 
