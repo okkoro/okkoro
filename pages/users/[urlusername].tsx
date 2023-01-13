@@ -24,7 +24,8 @@ export default function Profile() {
     return (
 
         <div className="row bg-green">
-            {urlusername == username ? <SignedInProfile urlusername={urlusername}/> : <WrongProfile/>}
+            {/*{urlusername == username ? <SignedInProfile urlusername={urlusername}/> : <WrongProfile/>}*/}
+            <SignedInProfile urlusername={urlusername}/>
         </div>
     )
 
@@ -101,6 +102,7 @@ function SignedInProfile(props: { urlusername: any; }) {
     }
 
     console.log(listList)
+    // @ts-ignore
     return (
         <div>
             <Row>
@@ -112,10 +114,9 @@ function SignedInProfile(props: { urlusername: any; }) {
             <Row>
                 <Col className="flex-row-reverse">
                     <div>
-                        {/*//@ts-ignore*/}
-
                         <Button onClick={() => callApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
-                        <MovieList movies={movieState} listTitle={""}/>
+                        {/*//@ts-ignore*/}
+                        <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list) => {
                                 return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]}/>
@@ -133,7 +134,6 @@ function SignedInProfile(props: { urlusername: any; }) {
                         </div>) : <p>nothing</p>}
                     </div>
 
-                    {/*@ts-ignore*/}
                 </Col>
             </Row>
         </div>

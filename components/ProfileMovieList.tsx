@@ -47,7 +47,7 @@ export default function ProfileMovieList(props: propsType) {
     // @ts-ignore
     // @ts-ignore
     return (
-        <Container fluid data-cy={`${props.listTitle}-MovieList`}>
+        <Container fluid data-cy={`${props.listTitle}-ProfileMovieList`}>
             <h2>{props.listTitle}</h2>
             <div className={"d-flex flex-row flex-nowrap overflow-auto"}>
                 {/*TODO: replace with proper display logic*/}
