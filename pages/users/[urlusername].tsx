@@ -6,7 +6,7 @@ import {getFirestore} from "firebase/firestore";
 import {query} from "@firebase/database";
 import {docToJSON} from "../../lib/firebase";
 import {useRouter} from "next/router";
-import {Button, Col, Container, Row} from "react-bootstrap";
+import {Button, Col, Row} from "react-bootstrap";
 import {getRecommendation} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
 import {UserContext} from "../../lib/context";
@@ -15,11 +15,10 @@ import ProfileMovieList from "../../components/ProfileMovieList";
 
 export default function Profile() {
 
-    const {username} = useContext(UserContext);
+    //const {username} = useContext(UserContext);
 
     const router = useRouter()
     const {urlusername} = router.query
-    // console.log(urlusername)
 
     return (
 
@@ -50,7 +49,6 @@ function SignedInProfile(props: { urlusername: any; }) {
     const [userMasterList, setUserMasterList] = useState(null as (any[] | null))
 
     async function fetchMasterList(urlUsername: string) {
-        console.log("DBCALLED!")
         const ref = collection(getFirestore(), 'users');
         const userInfoQuery = query(
             // @ts-ignore
@@ -101,7 +99,6 @@ function SignedInProfile(props: { urlusername: any; }) {
         })
     }
 
-    console.log(listList)
     // @ts-ignore
     return (
         <div>
@@ -120,13 +117,6 @@ function SignedInProfile(props: { urlusername: any; }) {
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list) => {
                                 return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]}/>
-                                return <div key={list[0]}>
-                                    <b>{list[0]}</b>
-                                    {list[1].map((movie: number) => {
-                                        console.log(listList)
-                                        return (<div key={movie}>{movie}</div>)
-                                    })}
-                                </div>
                             })}
 
 

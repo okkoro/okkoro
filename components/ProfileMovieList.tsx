@@ -13,7 +13,6 @@ type propsType = {
 }
 
 async function fetchMovieDetailsForList(movieIds: [number]) {
-    console.log("DBCALLED!")
     const ref = collection(getFirestore(), 'movies');
     const searchQuery = query(
         // @ts-ignore
