@@ -76,10 +76,10 @@ function SignedInProfile(props: { urlusername: any; }) {
 
     //recom
     const callApi = async function () {
-        var res = await getRecommendation();
+        getRecommendation().then((res) => {
+            setMovieState(res.data);
+        });
         // @ts-ignore
-        movieState = [res.data];
-        setMovieState(movieState);
     }
 
     //Create list of all lists that user has
@@ -113,6 +113,8 @@ function SignedInProfile(props: { urlusername: any; }) {
                 <Col className="flex-row-reverse">
                     <div>
                         {/*//@ts-ignore*/}
+
+                        <Button onClick={() => callApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
                         <MovieList movies={movieState} listTitle={""}/>
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list) => {
@@ -132,7 +134,6 @@ function SignedInProfile(props: { urlusername: any; }) {
                     </div>
 
                     {/*@ts-ignore*/}
-                    <Button onClick={() => callApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
                 </Col>
             </Row>
         </div>
