@@ -10,7 +10,7 @@ export default function MovieTile(props: propsType){
     return (
         <div style={{margin:"1rem"}} data-cy={`MovieTile`}>
             <Card className="bg-light-gray" style={{width:"14rem"}}>
-                <Link href={"./movies/" + props.movie.id}>
+                <Link href={"/movies/" + props.movie.id}>
                     <CardImg src={"https://image.tmdb.org/t/p/w500" + props.movie.poster_path} alt="image of movie" />
                 </Link>
                 <Card.Body>
