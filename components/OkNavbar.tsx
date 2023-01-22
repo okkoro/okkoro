@@ -9,16 +9,16 @@ export default function OkNavbar() {
     const {user, username} = useContext(UserContext);
 
     return (
-        <Navbar>
+        <Navbar className={"border-bottom border-dark-gray sticky-top bg-black pe-1"}>
             <NavbarBrand>
                 <Link href={"/"}>
-                    <Image src={logo} alt={"okkoro logo"} height={30}/>
+                    <Image src={logo} alt={"okkoro logo"} height={30} />
                 </Link>
             </NavbarBrand>
 
             <Nav className={"me-auto"}>
-                <Link data-cy={"Movies-NavButton"} href={`/movies`} className={'text-decoration-none text-green'} style={{fontSize: "1.5rem"}}>
-                    | Movies
+                <Link data-cy={"Movies-NavButton"} href={`/movies`} className={'text-decoration-none px-3 text-green border-start border-green'} style={{fontSize: "1.5rem"}}>
+                    Movies
                 </Link>
             </Nav>
 
