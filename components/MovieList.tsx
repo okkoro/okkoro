@@ -1,4 +1,4 @@
-import {Container} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 
 import MovieTile from "./MovieTile";
 
