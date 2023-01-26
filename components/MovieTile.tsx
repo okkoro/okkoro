@@ -25,14 +25,19 @@ export default function MovieTile(props: propsType) {
 
         fetchUserInfo().then((res) => {
             var listedMovies: ListedMovie[] = res.get("listedMovies")
-            console.log(listedMovies.findIndex(x => x.movieId == id))
-            // setDoc(res, data, { merge:true })
-            //     .then(docRef => {
-            //         alert("Entire Document has been updated successfully");
-            //     })
-            //     .catch(error => {
-            //         alert(error);
-            //     })
+
+            listedMovies[listedMovies.findIndex(x => x.movieId == id)].lists = listedMovies[listedMovies.findIndex(x => x.movieId == id)].lists.filter(x => x !== list)
+            let data = {
+                listedMovies: listedMovies
+            }
+            console.log(listedMovies)
+            setDoc(doc(db,"users", user.uid), data, { merge:true })
+                .then(docRef => {
+                    alert("Entire Document has been updated successfully");
+                })
+                .catch(error => {
+                    alert(error);
+                })
         })
 
     }
