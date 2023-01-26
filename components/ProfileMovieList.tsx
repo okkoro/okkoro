@@ -53,7 +53,7 @@ export default function ProfileMovieList(props: propsType) {
                 {props.movies &&
                     finalMovies.map((movie ) => (
                         //@ts-ignore
-                        <MovieTile key={movie.id} movie={movie}/>
+                        <MovieTile key={movie.id} movie={movie} list={props.listTitle}/>
                     ))
                 }
             </div>
