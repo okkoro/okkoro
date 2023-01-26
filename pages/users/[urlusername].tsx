@@ -22,7 +22,7 @@ export default function Profile() {
 
     return (
 
-        <div className="row bg-green">
+        <div className="row">
             {/*{urlusername == username ? <SignedInProfile urlusername={urlusername}/> : <WrongProfile/>}*/}
             <SignedInProfile urlusername={urlusername}/>
         </div>

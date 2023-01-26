@@ -13,7 +13,7 @@ export default function Enter(props) {
 
     return (
         <main>
-            <div className="row bg-green">
+            <div className="row">
                 <div className="col text-center">
                     {user ?
                         !username ? <UsernameForm /> : <SignOutButton />

@@ -1,4 +1,4 @@
-import {Container} from "react-bootstrap";
+import {Row} from "react-bootstrap";
 
 import MovieTile from "./MovieTile";
 
@@ -10,7 +10,7 @@ type propsType = {
 export default function MovieList(props: propsType) {
 
     return (
-        <Container fluid data-cy={`${props.listTitle}-MovieList`}>
+        <Row data-cy={`${props.listTitle}-MovieList`}>
             <h2>{props.listTitle}</h2>
             <div className={"d-flex flex-row flex-nowrap overflow-auto"}>
                 {/*TODO: replace with proper display logic*/}
@@ -20,6 +20,6 @@ export default function MovieList(props: propsType) {
                     ))
                 }
             </div>
-        </Container>
+        </Row>
     )
 }

@@ -23,7 +23,7 @@ export default function MovieDetails() {
     }
 
     return (
-        <div className="row bg-green">
+        <div className="row">
             <div className="col">
                 {movieDetails != null && (
                     <Container>

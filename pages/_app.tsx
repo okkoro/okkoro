@@ -13,7 +13,7 @@ export default function App({Component, pageProps}: AppProps) {
         <SSRProvider>
             {/* @ts-ignore */}
             <UserContext.Provider value={userData}>
-                <Container fluid className="bg-black" style={{height: "100vh"}}>
+                <Container fluid className={"bg-black text-light-gray main"} style={{minHeight: "100vh"}}>
                     <OkNavbar />
                     <Component {...pageProps} />
                 </Container>

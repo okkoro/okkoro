@@ -34,14 +34,16 @@ export default function Home(props: { movies: [Movie]; }) {
     const [movies, setMovies] = useState(props.movies);
 
     return (
-        <div className="row bg-green">
-            <div className="col text-center">
+        <div>
+            <div className="row">
+                <div className="col text-center">
+                    <Image src={okkoroPic} alt={"Logo"} />
 
-                <Image src={okkoroPic} alt={"Logo"}/>
+                    <h1>WELCOME TO OKKORO</h1>
 
-                <h1>WELCOME TO OKKORO</h1>
-                <MovieList movies={movies} listTitle={"Genre"}/>
+                </div>
             </div>
+            <MovieList movies={movies} listTitle={"Genre"} />
         </div>
     )
 }
