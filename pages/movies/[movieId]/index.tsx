@@ -1,7 +1,8 @@
 import {useRouter} from "next/router";
 import {getMovieById} from "../../../lib/firebase";
 import {useState} from "react";
-import {Col, Container, Image, Row} from "react-bootstrap";
+import {Button, Col, Container, Image, Modal, Row} from "react-bootstrap";
+import {ReviewLister} from "../../../components/ReviewLister";
 
 export default function MovieDetails() {
     const {movieId} = useRouter().query;
@@ -28,8 +29,10 @@ export default function MovieDetails() {
                 {movieDetails != null && (
                     <Container>
                         <Row>
-                            <Col>
+                            <Col className={"text-center"}>
                                 <Image className={"w-75 p-3"} style={{borderRadius: 25}} src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path} alt="image of movie" />
+
+                                <AddReviewModal movie={movieDetails} />
                             </Col>
                             <Col className={"col-lg-9 col-md-6"}>
                                 <h1 data-cy={`MovieTitle`}>{movieDetails.title}</h1>
@@ -44,4 +47,33 @@ export default function MovieDetails() {
             </div>
         </div>
     )
+}
+
+function AddReviewModal(props: { movie: Movie }) {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    return (
+        <>
+            <Button variant={"green"} className={"rounded-pill text-black"} onClick={handleShow}>
+                Add review
+            </Button>
+
+            <Modal size={"lg"} show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Add a new review for {props.movie.title}</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Form go here
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={handleClose}>
+                        Save
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
 }
