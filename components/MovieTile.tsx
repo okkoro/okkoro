@@ -1,12 +1,7 @@
 import {Card, CardImg, Button} from "react-bootstrap";
 import Link from "next/link";
-import {collection, getDocs, setDoc, where} from "@firebase/firestore";
+import {setDoc} from "@firebase/firestore";
 import {doc, getDoc, getFirestore} from "firebase/firestore";
-import {query} from "@firebase/database";
-import {docToJSON} from "../lib/firebase";
-import { getDatabase, ref, child, push, update } from "firebase/database";
-import firebase from "firebase/compat";
-import app = firebase.app;
 import {UserContext} from "../lib/context";
 import {useContext} from "react";
 
@@ -32,16 +27,10 @@ export default function MovieTile(props: propsType) {
             }
             console.log(listedMovies)
             setDoc(doc(db,"users", user.uid), data, { merge:true })
-                .then(docRef => {
-                    alert("Entire Document has been updated successfully");
-                })
-                .catch(error => {
-                    alert(error);
-                })
         })
 
     }
-    const {username, user} = useContext(UserContext);
+    const {user} = useContext(UserContext);
     // @ts-ignore
     return (
         <div className={"m-2"} data-cy={`MovieTile`}>
