@@ -1,7 +1,7 @@
 import {useRouter} from "next/router";
 import {getMovieById} from "../../../lib/firebase";
 import {useState} from "react";
-import {Button, Col, Container, Image, Modal, Row} from "react-bootstrap";
+import {Button, Col, Container, Form, Image, Modal, Row} from "react-bootstrap";
 import {ReviewLister} from "../../../components/ReviewLister";
 
 export default function MovieDetails() {
@@ -65,19 +65,32 @@ function AddReviewModal(props: { movie: Movie }) {
                 Add review
             </Button>
 
-            <Modal size={"lg"} show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Add a new review for {props.movie.title}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Form go here
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={handleClose}>
-                        Save
-                    </Button>
-                </Modal.Footer>
-            </Modal>
+            <div onClick={e => e.stopPropagation()}>
+                <Modal size={"lg"} show={show} onHide={handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add a new review for {props.movie.title}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                        <Form>
+                            <Form.Group controlId={"formTitle"}>
+                                <Form.Label>Score:</Form.Label>
+                                <Form.Control type={"number"} />
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Review body:</Form.Label>
+                                <Form.Control as={"textarea"} rows={5} />
+                            </Form.Group>
+                        </Form>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={handleClose}>
+                            Save
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
         </>
     );
 }
