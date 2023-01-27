@@ -1,10 +1,11 @@
 import firebaseConfig from "./firebaseConfig";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import {getFirestore, DocumentSnapshot, doc} from "firebase/firestore";
+import {getFirestore, DocumentSnapshot, doc, setDoc} from "firebase/firestore";
 import {collection, getDocs, limit, orderBy, where} from "@firebase/firestore";
 import {query} from "@firebase/database";
 import {useCollection} from "react-firebase-hooks/firestore";
+import {number} from "prop-types";
 
 // Initialize firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -42,8 +43,27 @@ export async function getMovieById(id : number) {
     return docToJSON((await getDocs(genreQuery)).docs[0]);
 }
 
-export async function addMovietoList(id: number, uid: string, list: string){
+export async function addMovieToList(id: string, user: any, list: string, userInfo: any){
+    const ref = doc(getFirestore(), 'users', userInfo.uid);
+    for(let i = 0; i < user.listedMovies.length; i++){
+        if(user.listedMovies.at(i).movieId == id){
+            if (user.listedMovies.at(i).lists.indexOf(list) > -1){
+                return;
+            }
 
+            user.listedMovies.at(i).lists.push(list);
+            // @ts-ignore
+            await setDoc(ref, user);
+            // @ts-ignore
+            return;
+        }
+    }
+
+    user.listedMovies.push({"lists": [list], "movieId": +id});
+    // @ts-ignore
+    await setDoc(ref, user);
+    // @ts-ignore
+    return;
 }
 
 export function getUserByUsername(username: any) {
