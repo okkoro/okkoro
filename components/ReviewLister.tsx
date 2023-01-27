@@ -1,8 +1,10 @@
 import {collection, query, where} from "@firebase/firestore";
 import {getFirestore} from "firebase/firestore";
 import {useCollection} from "react-firebase-hooks/firestore";
-import {Button, Col, Row} from "react-bootstrap";
-import Image from "next/image";
+import {Col, Dropdown, Row} from "react-bootstrap";
+import Script from "next/script";
+import {useContext} from "react";
+import {UserContext} from "../lib/context";
 
 
 export function ReviewLister(props: { movieId: number }) {
@@ -13,6 +15,7 @@ export function ReviewLister(props: { movieId: number }) {
 
     return (
         <>
+            <Script src="https://kit.fontawesome.com/41b311bbbd.js" crossOrigin="anonymous" />
             {reviews ? reviews.map((review) =>
                     <ReviewItem key={review.id} review={review as Review} />
                 )
@@ -23,6 +26,8 @@ export function ReviewLister(props: { movieId: number }) {
 }
 
 export function ReviewItem(props: { review: Review }) {
+    const {user, username} = useContext(UserContext);
+
     return (
         <Row className={"bg-light-gray text-black m-2 px-2 py-3 rounded"}>
             <Col>
@@ -41,14 +46,29 @@ export function ReviewItem(props: { review: Review }) {
                         <h5>{props.review.date.toDate().toDateString()}</h5>
                     </Col>
                 </Row>
-<p>
+                <p>
                     {props.review.text}
-</p>
+                </p>
+
                 <div className={"d-flex justify-content-end"}>
-                    <Button>...</Button>
+                    <Dropdown>
+                        <Dropdown.Toggle variant="" id="dropdown-basic">
+                            <i className="fa-solid fa-ellipsis"></i>
+                        </Dropdown.Toggle>
 
+                        {/*TODO: Add functionality to these buttons*/}
+                        <Dropdown.Menu>
+                            {username == props.review.userId ? (<>
+                                    <Dropdown.Item>Edit <i className="fa-solid fa-file"></i></Dropdown.Item>
+                                    <Dropdown.Item>Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
+                                </>)
+                                : (<>
+                                    <Dropdown.Item>Report <i className="fa-solid fa-flag"></i></Dropdown.Item>
+                                </>)
+                            }
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </div>
-
             </Col>
         </Row>
     )
