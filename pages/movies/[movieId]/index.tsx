@@ -1,7 +1,11 @@
 import {useRouter} from "next/router";
-import {getMovieById} from "../../../lib/firebase";
-import {useState} from "react";
-import {Col, Container, Image, Row} from "react-bootstrap";
+import {getMovieById, addMovietoList} from "../../../lib/firebase";
+import {useContext, useState} from "react";
+import {Button, Col, Container, Image, Row} from "react-bootstrap";
+import {UserContext} from "../../../lib/context";
+import {collection} from "@firebase/firestore";
+import {getFirestore} from "firebase/firestore";
+import Link from "next/link";
 
 export default function MovieDetails() {
     const {movieId} = useRouter().query;
@@ -31,12 +35,15 @@ export default function MovieDetails() {
                             <Col>
                                 <Image className={"w-75 p-3"} style={{borderRadius: 25}} src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path} alt="image of movie" />
                             </Col>
-                            <Col className={"col-lg-9 col-md-6"}>
+                            <Col className={"col-lg-5 col-md-6"}>
                                 <h1 data-cy={`MovieTitle`}>{movieDetails.title}</h1>
                                 <p>{movieDetails.release_date}</p>
                                 <p>{movieDetails.vote_average}/10</p>
                                 <p>{movieGenres}</p>
                                 <p>{movieDetails.overview}</p>
+                            </Col>
+                            <Col className={"col-lg-2 col-md-6"}>
+                                <Link href={"/movies/" + movieId + "/lists"} id={"addToListButton"}>Add To List</Link>
                             </Col>
                         </Row>
                     </Container>
