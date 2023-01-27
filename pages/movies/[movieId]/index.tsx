@@ -42,6 +42,10 @@ export default function MovieDetails() {
                                 <p>{movieDetails.overview}</p>
                             </Col>
                         </Row>
+
+                        Reviews:
+                        <ReviewLister movieId={movieDetails.id} />
+
                     </Container>
                 )}
             </div>
