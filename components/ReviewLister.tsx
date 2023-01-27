@@ -16,10 +16,10 @@ export function ReviewLister(props: { movieId: number }) {
     return (
         <>
             <Script src="https://kit.fontawesome.com/41b311bbbd.js" crossOrigin="anonymous" />
-            {reviews ? reviews.map((review) =>
+            {reviews && reviews.length > 0 ? reviews.map((review) =>
                     <ReviewItem key={review.id} review={review as Review} />
                 )
-                : "No reviews yet"
+                : <div className={"text-white"}>No reviews yet</div>
             }
         </>
     );
