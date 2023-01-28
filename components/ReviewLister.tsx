@@ -39,7 +39,7 @@ export function ReviewItem(props: { review: Review }) {
                     </Col>
                     <Col className={"text-end"}>
                         <h5>
-                            {props.review.score}/5
+                            {props.review.score}/10
                         </h5>
                     </Col>
                     <Col md={"2"} className={"text-end"}>
