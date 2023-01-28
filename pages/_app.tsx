@@ -5,6 +5,7 @@ import {UserContext} from '../lib/context';
 import {Container, SSRProvider} from "react-bootstrap";
 
 import '../styles/main.scss';
+import {Toaster} from "react-hot-toast";
 
 export default function App({Component, pageProps}: AppProps) {
     const userData = useUserData();
@@ -16,6 +17,7 @@ export default function App({Component, pageProps}: AppProps) {
                 <Container fluid className={"bg-black text-light-gray main"} style={{minHeight: "100vh"}}>
                     <OkNavbar />
                     <Component {...pageProps} />
+                    <Toaster />
                 </Container>
             </UserContext.Provider>
         </SSRProvider>

@@ -1,8 +1,11 @@
 import {useRouter} from "next/router";
 import {getMovieById} from "../../../lib/firebase";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {Button, Col, Container, Form, Image, Modal, Row} from "react-bootstrap";
 import {ReviewLister} from "../../../components/ReviewLister";
+import {UserContext} from "../../../lib/context";
+
+import toast from "react-hot-toast";
 
 export default function MovieDetails() {
     const {movieId} = useRouter().query;
@@ -54,11 +57,44 @@ export default function MovieDetails() {
 }
 
 function AddReviewModal(props: { movie: Movie }) {
+    const {user, username} = useContext(UserContext);
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const data = {
+            movieId: props.movie.id,
+            userId: username,
+            score: event.target.score.value,
+            text: event.target.text.value
+        }
+
+        const JSONdata = JSON.stringify(data);
+
+        const endpoint = '/api/reviews'
+
+        const options = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSONdata,
+        }
+
+        const response = await fetch(endpoint, options);
+        const result = await response.json();
+        // alert(`Data: ${result.data}`);
+
+        toast.success("Review created!");
+
+        //Close modal
+        handleClose();
+    }
     return (
         <>
             <Button variant={"green"} className={"rounded-pill text-black"} onClick={handleShow}>
@@ -72,20 +108,31 @@ function AddReviewModal(props: { movie: Movie }) {
                     </Modal.Header>
                     <Modal.Body>
 
-                        <Form>
-                            <Form.Group controlId={"formTitle"}>
+                        <Form onSubmit={handleSubmit} id={"reviewForm"}>
+                            <Form.Group controlId={"formScore"} >
                                 <Form.Label>Score:</Form.Label>
-                                <Form.Control type={"number"} />
+                                <Form.Select required id={"score"} name={"score"}>
+                                    <option value="1">1 - Disgusting</option>
+                                    <option value="2">2 - Terrible</option>
+                                    <option value="3">3 - Really bad</option>
+                                    <option value="4">4 - Just Bad</option>
+                                    <option value="5">5 - Average</option>
+                                    <option value="6">6 - Passable</option>
+                                    <option value="7">7 - Good</option>
+                                    <option value="8">8 - Really Good</option>
+                                    <option value="9">9 - Great</option>
+                                    <option value="10">10 - Masterpiece</option>
+                                </Form.Select>
                             </Form.Group>
-                            <Form.Group>
-                                <Form.Label>Review body:</Form.Label>
-                                <Form.Control as={"textarea"} rows={5} />
+                            <Form.Group  controlId={"formText"}>
+                                <Form.Label>Review Text:</Form.Label>
+                                <Form.Control required id={"text"} name={"text"} as={"textarea"} rows={5} />
                             </Form.Group>
                         </Form>
 
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="primary" onClick={handleClose}>
+                        <Button variant="primary" type={"submit"} form={"reviewForm"}>
                             Save
                         </Button>
                     </Modal.Footer>
