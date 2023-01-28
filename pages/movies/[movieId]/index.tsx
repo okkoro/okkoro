@@ -1,10 +1,7 @@
 import {useRouter} from "next/router";
-import {getMovieById, addMovietoList} from "../../../lib/firebase";
-import {useContext, useState} from "react";
-import {Button, Col, Container, Image, Row} from "react-bootstrap";
-import {UserContext} from "../../../lib/context";
-import {collection} from "@firebase/firestore";
-import {getFirestore} from "firebase/firestore";
+import {getMovieById} from "../../../lib/firebase";
+import {useState} from "react";
+import {Col, Container, Image, Row} from "react-bootstrap";
 import Link from "next/link";
 
 export default function MovieDetails() {
