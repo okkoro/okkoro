@@ -70,11 +70,11 @@ export default function AddToList() {
                             </Col>
                             <Col className={"col-lg-2 col-md-6"}>
                                 <form action={"/movies/" + movieId}>
-                                    <select id={"list-selector"}>
+                                    <select data-cy={"list-selector"} id={"list-selector"}>
                                         {lists.map((list) => <option key={list} value={list}>{list.charAt(0).toUpperCase() + list.substring(1)}</option>)}
                                     </select>
 
-                                    <input type={"submit"} value={"Add to this list"} onClick={addToList}></input>
+                                    <input type={"submit"} value={"Add to this list"} onClick={addToList} data-cy={"submit-button"}></input>
                                 </form>
                             </Col>
                         </Row>

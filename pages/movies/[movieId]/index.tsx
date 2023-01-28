@@ -40,7 +40,7 @@ export default function MovieDetails() {
                                 <p>{movieDetails.overview}</p>
                             </Col>
                             <Col className={"col-lg-2 col-md-6"}>
-                                <Link href={"/movies/" + movieId + "/lists"} id={"addToListButton"}>Add To List</Link>
+                                <Link href={"/movies/" + movieId + "/lists"} data-cy={"addToListButton"}>Add To List</Link>
                             </Col>
                         </Row>
                     </Container>
