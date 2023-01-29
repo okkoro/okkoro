@@ -1,18 +1,19 @@
 import axios, {AxiosResponse} from 'axios';
 import {getMovieById} from "./firebase";
+import {useContext} from "react";
 
 
 
-export async function getRecommendation(){
-    const movieIds = await axios.get("https://clementcadieux.pythonanywhere.com/api/recommendation/");
-    return await convertIdsToMovies(movieIds);
+export async function getRecommendation(uid : string){
+    return await axios.get("https://clementcadieux.pythonanywhere.com/api/recommendation/" + uid);
 }
 
-async function convertIdsToMovies(movieIds: AxiosResponse){
+export async function convertIdsToMovies(movieIds: string[]){
     const movies = [];
-    for (let movieId in movieIds.data){
-        movies.push(getMovieById(parseInt(movieId)));
+    for (let movieId in movieIds){
+        // @ts-ignore
+        movies.push(await getMovieById(parseInt(movieId.at(0))));
     }
-    return movieIds;
+    return movies;
 }
 

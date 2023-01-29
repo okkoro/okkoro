@@ -7,7 +7,7 @@ import {query} from "@firebase/database";
 import {docToJSON} from "../../lib/firebase";
 import {useRouter} from "next/router";
 import {Button, Col, Row} from "react-bootstrap";
-import {getRecommendation} from "../../lib/recommendations"
+import {getRecommendation, convertIdsToMovies} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
 import {UserContext} from "../../lib/context";
 import ProfileMovieList from "../../components/ProfileMovieList";
@@ -74,11 +74,14 @@ function SignedInProfile(props: { urlusername: any; }) {
     }
 
     //recom
-    const callApi = async function () {
-        getRecommendation().then((res) => {
+    const {user, username} = useContext(UserContext);
+    const CallApi = async function () {
+        // @ts-ignore
+        getRecommendation(user.uid).then((res) => {
             setMovieState(res.data);
         });
         // @ts-ignore
+
     }
 
     //Create list of all lists that user has
@@ -99,6 +102,9 @@ function SignedInProfile(props: { urlusername: any; }) {
         })
     }
 
+    const movies = convertIdsToMovies(movieState);
+    console.log(movies);
+
     // @ts-ignore
     return (
         <div>
@@ -111,9 +117,9 @@ function SignedInProfile(props: { urlusername: any; }) {
             <Row>
                 <Col className="flex-row-reverse">
                     <div>
-                        <Button onClick={() => callApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
+                        <Button onClick={() => CallApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
                         {/*//@ts-ignore*/}
-                        <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
+                        {movies.length > 0 ? <MovieList data-cy={"oneMovieList"} movies={movies} listTitle={""}/> : <MovieList data-cy={"oneMovieList"} movies={[]} listTitle={""}/>}
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list) => {
                                 return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]}/>
