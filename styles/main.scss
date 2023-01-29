@@ -29,9 +29,41 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
   z-index: 99999 !important;
 }
 
-.cardAnim {
-  color: #00000000
+.xButton{
+  color: #FC7DAF;
+  font-weight: bold;
+  background: #546a7b;
+  vertical-align: middle;
+  border-color: #00000000;
+  margin:5px;
+  padding:5px;
+  height: 30px;
+  width: 30px;
+  display: flex; /* or inline-flex */
+  align-items: center;
+  justify-content: center;
+  border-radius:50%;
+  position:absolute;
+  z-index:9999999999 !important;
 }
+.xButton:hover{
+  color: #FC7DAF;
+  background:#9ea3b0;
+}
+
+.cardAnim .xButton{
+  visibility: hidden;
+}
+
+.cardAnim:hover .xButton{
+  visibility: visible;
+}
+
+.cardAnim {
+  color: #00000000;
+}
+
+
 
 .cardAnim:hover {
   color: #fff;
@@ -43,7 +75,7 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
   //TODO: figure fade out anim
 }
 
-.cardAnim a:hover::after {
+.cardAnim:hover::after {
   content: '';
   position: absolute;
   left: 0;
