@@ -33,7 +33,7 @@ export default function AddToList() {
     // @ts-ignore
     const userQuery = getUserByUsername(username);
 
-    const lists = ["liked", "favorites"];
+    const lists = ["liked", "watched"];
 
     if(userQuery && userQuery.at(0)){
         // @ts-ignore

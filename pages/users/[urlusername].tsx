@@ -100,9 +100,6 @@ function SignedInProfile(props: { urlusername: any; }) {
         })
     }
 
-    const movies = convertIdsToMovies(movieState);
-    console.log(movies);
-
     // @ts-ignore
     return (
         <div>
@@ -117,7 +114,7 @@ function SignedInProfile(props: { urlusername: any; }) {
                     <div>
                         <Button onClick={() => CallApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
                         {/*//@ts-ignore*/}
-                        {movies.length > 0 ? <MovieList data-cy={"oneMovieList"} movies={movies} listTitle={""}/> : <MovieList data-cy={"oneMovieList"} movies={[]} listTitle={""}/>}
+                        <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list) => {
                                 return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]}/>
