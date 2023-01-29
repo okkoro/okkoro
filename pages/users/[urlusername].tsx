@@ -74,11 +74,12 @@ function SignedInProfile(props: { urlusername: any; }) {
     }
 
     //recom
-    const callApi = async function () {
-        getRecommendation().then((res) => {
+    const {user, username} = useContext(UserContext);
+    const CallApi = async function () {
+        // @ts-ignore
+        getRecommendation(user.uid).then((res) => {
             setMovieState(res.data);
         });
-        // @ts-ignore
     }
 
     //Create list of all lists that user has
@@ -111,7 +112,7 @@ function SignedInProfile(props: { urlusername: any; }) {
             <Row>
                 <Col className="flex-row-reverse">
                     <div>
-                        <Button onClick={() => callApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
+                        <Button onClick={() => CallApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
                         {/*//@ts-ignore*/}
                         <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
                         {userMasterList != null && userMasterList.length > 0 ? (<div>

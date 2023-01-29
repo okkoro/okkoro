@@ -1,10 +1,8 @@
 import {useContext, useState} from "react";
 import {UserContext} from "../../../lib/context";
-import MovieTile from "../../../components/MovieTile";
 import {useRouter} from "next/router";
 import {getMovieById, getUserByUsername, addMovieToList} from "../../../lib/firebase";
-import {Col, Container, Dropdown, Form, Image, Row} from "react-bootstrap";
-import Link from "next/link";
+import {Col, Container, Image, Row} from "react-bootstrap";
 
 export default function AddToList() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -33,7 +31,7 @@ export default function AddToList() {
     // @ts-ignore
     const userQuery = getUserByUsername(username);
 
-    const lists = ["liked", "favorites"];
+    const lists = ["liked", "watched"];
 
     if(userQuery && userQuery.at(0)){
         // @ts-ignore
