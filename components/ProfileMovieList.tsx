@@ -36,7 +36,7 @@ export default function ProfileMovieList(props: propsType) {
                 {props.movies &&
                     finalMovies.map((movie, index ) => (
                         //@ts-ignore
-                        <MovieTile key={index} movie={movie} list={props.listTitle} stateUpdate={props.stateUpdate}/>
+                        <MovieTile key={movie.id} movie={movie} list={props.listTitle} stateUpdate={props.stateUpdate}/>
                     ))
                 }
             </div>

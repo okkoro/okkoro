@@ -110,7 +110,7 @@ function SignedInProfile(props: { urlusername: any; }) {
 
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list,index) => {
-                                return <ProfileMovieList key={index} listTitle={list[0]} movies={list[1]} stateUpdate={example}/>
+                                return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]} stateUpdate={example}/>
                             })}
                         </div>) : <p>nothing</p>}
                     </div>
