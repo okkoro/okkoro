@@ -80,8 +80,6 @@ function SignedInProfile(props: { urlusername: any; }) {
         getRecommendation(user.uid).then((res) => {
             setMovieState(res.data);
         });
-        // @ts-ignore
-
     }
 
     //Create list of all lists that user has
