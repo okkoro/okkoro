@@ -6,6 +6,8 @@ import {useEffect, useState} from "react";
 type propsType = {
     listTitle: string;
     movies: [number];
+
+    stateUpdate: ()=>void;
 }
 
 
@@ -20,7 +22,6 @@ export default function ProfileMovieList(props: propsType) {
                     setMovies(res)
                     console.log(finalMovies)
                 })
-
     },[props.movies])
 
 
@@ -35,7 +36,7 @@ export default function ProfileMovieList(props: propsType) {
                 {props.movies &&
                     finalMovies.map((movie, index ) => (
                         //@ts-ignore
-                        <MovieTile key={index} movie={movie} list={props.listTitle}/>
+                        <MovieTile key={index} movie={movie} list={props.listTitle} stateUpdate={props.stateUpdate}/>
                     ))
                 }
             </div>

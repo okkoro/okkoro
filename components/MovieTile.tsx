@@ -7,17 +7,26 @@ import {deleteMovieFromList} from "../lib/firebase";
 type propsType = {
     movie: Movie;
     list?: string;
+    stateUpdate?: ()=>void;
 }
 
 
 export default function MovieTile(props: propsType) {
 
     const {user} = useContext(UserContext);
+
+    async function deleteMovie(){
+        // @ts-ignore
+        await deleteMovieFromList(props.movie.id,props.list!,user.uid).then(
+            props.stateUpdate
+        )
+    }
+
     // @ts-ignore
     return (
         <div className={"m-2"} data-cy={`MovieTile`}>
             <Card className="bg-light-gray cardAnim" style={{width: "14rem"}}>
-                {props.list && <Button className={"xButton"} onClick={async () =>{await deleteMovieFromList(props.movie.id,props.list!,user.uid)}}>X</Button>}
+                {(props.list && user) && <Button className={"xButton"} onClick={deleteMovie}>X</Button>}
                 <Link href={"/movies/" + props.movie.id} className={"text-decoration-none text-reset"}>
                     <CardImg src={"https://image.tmdb.org/t/p/w500" + props.movie.poster_path} alt="image of movie" />
                     <Card.Body className={"cardTextPos"}>

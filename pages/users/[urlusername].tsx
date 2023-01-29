@@ -1,10 +1,7 @@
 import {useEffect, useState} from "react";
 import banner from "public/okkoro_banner.png";
 import Image from 'next/image'
-import {collection, getDocs, where} from "@firebase/firestore";
-import {getFirestore} from "firebase/firestore";
-import {query} from "@firebase/database";
-import {docToJSON} from "../../lib/firebase";
+import {fetchMasterList} from "../../lib/firebase";
 import {useRouter} from "next/router";
 import {Button, Col, Row} from "react-bootstrap";
 import {getRecommendation} from "../../lib/recommendations"
@@ -13,8 +10,6 @@ import ProfileMovieList from "../../components/ProfileMovieList";
 
 
 export default function Profile() {
-
-    //const {username} = useContext(UserContext);
 
     const router = useRouter()
     const {urlusername} = router.query
@@ -49,21 +44,7 @@ function SignedInProfile(props: { urlusername: any; }) {
 
     const [reloads, setReloads] = useState(1)
 
-    async function fetchMasterList(urlUsername: string) {
-        const ref = collection(getFirestore(), 'users');
-        const userInfoQuery = query(
-            // @ts-ignore
-            ref,
-            where('username', "==", urlUsername)
-        )
 
-        // @ts-ignore
-        const userInfo = docToJSON((await getDocs(userInfoQuery)).docs[0]);
-
-        console.log("read from urlusername")
-
-        return userInfo.listedMovies;
-    }
 
 
     useEffect(()=>{
@@ -115,7 +96,6 @@ function SignedInProfile(props: { urlusername: any; }) {
     return (
         <div>
             <Row>
-                <Button onClick={example}>Test</Button>
                 <Col className="text-center">
                     <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
                     <h1>Welcome {urlusername}</h1>
@@ -130,7 +110,7 @@ function SignedInProfile(props: { urlusername: any; }) {
 
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list,index) => {
-                                return <ProfileMovieList key={index} listTitle={list[0]} movies={list[1]}/>
+                                return <ProfileMovieList key={index} listTitle={list[0]} movies={list[1]} stateUpdate={example}/>
                             })}
                         </div>) : <p>nothing</p>}
                     </div>
