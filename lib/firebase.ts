@@ -1,8 +1,7 @@
 import firebaseConfig from "./firebaseConfig";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, DocumentSnapshot } from "firebase/firestore";
-import {collection, getDocs, limit, orderBy, where} from "@firebase/firestore";
+import { getFirestore, DocumentSnapshot,collection, getDocs, limit, orderBy, where, setDoc } from "firebase/firestore";
 import {query} from "@firebase/database";
 
 // Initialize firebase
