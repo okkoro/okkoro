@@ -1,8 +1,7 @@
 import firebaseConfig from "./firebaseConfig";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import {getFirestore, DocumentSnapshot, getDoc, doc, setDoc} from "firebase/firestore";
-import {collection, getDocs, limit, orderBy, setDoc, where} from "@firebase/firestore";
+import {getFirestore, DocumentSnapshot, getDoc, doc, collection, getDocs, limit, orderBy, setDoc, where} from "firebase/firestore";
 import {query} from "@firebase/database";
 import {useCollection} from "react-firebase-hooks/firestore";
 import {number} from "prop-types";
