@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useEffect, useState} from "react";
 import banner from "public/okkoro_banner.png";
 import Image from 'next/image'
 import {collection, getDocs, where} from "@firebase/firestore";
@@ -9,7 +9,6 @@ import {useRouter} from "next/router";
 import {Button, Col, Row} from "react-bootstrap";
 import {getRecommendation} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
-import {UserContext} from "../../lib/context";
 import ProfileMovieList from "../../components/ProfileMovieList";
 
 
@@ -48,6 +47,8 @@ function SignedInProfile(props: { urlusername: any; }) {
 
     const [userMasterList, setUserMasterList] = useState(null as (any[] | null))
 
+    const [reloads, setReloads] = useState(1)
+
     async function fetchMasterList(urlUsername: string) {
         const ref = collection(getFirestore(), 'users');
         const userInfoQuery = query(
@@ -59,50 +60,62 @@ function SignedInProfile(props: { urlusername: any; }) {
         // @ts-ignore
         const userInfo = docToJSON((await getDocs(userInfoQuery)).docs[0]);
 
-        // console.table(userInfo);
+        console.log("read from urlusername")
 
         return userInfo.listedMovies;
     }
 
 
-
-    if (typeof urlusername === "string" && userMasterList == null) {
-        fetchMasterList(urlusername)
-            .then((res) => {
-                setUserMasterList(res);
-            })
-    }
+    useEffect(()=>{
+        if(urlusername) {
+            fetchMasterList(urlusername)
+                .then((res) => {
+                    setUserMasterList(res);
+                })
+        }
+    },[urlusername,reloads])
 
     //recom
     const callApi = async function () {
         getRecommendation().then((res) => {
             setMovieState(res.data);
+
         });
         // @ts-ignore
     }
 
     //Create list of all lists that user has
-    let listList = new Map();
+    const [listList, setListList] = useState(new Map());
 
-    if (userMasterList) {
-        userMasterList.forEach((item) => {
-            item.lists.forEach((list: String) => {
-                let mapList: string[] = [];
+    useEffect(()=>{
+        listList.clear()
+        setListList(new Map())
+        if (userMasterList) {
+            userMasterList.forEach((item) => {
+                item.lists.forEach((list: String) => {
+                    let mapList: string[] = [];
 
-                if (listList.has(list))
-                    mapList = listList.get(list);
+                    if (listList.has(list))
+                        mapList = listList.get(list);
 
-                mapList.push(item.movieId);
+                    mapList.push(item.movieId);
 
-                listList.set(list, mapList);
+                    setListList(new Map(listList.set(list, mapList)))
+                })
             })
-        })
+        }
+    },[userMasterList])
+
+
+    function example(){
+        setReloads(reloads+1)
     }
 
     // @ts-ignore
     return (
         <div>
             <Row>
+                <Button onClick={example}>Test</Button>
                 <Col className="text-center">
                     <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
                     <h1>Welcome {urlusername}</h1>
@@ -114,13 +127,11 @@ function SignedInProfile(props: { urlusername: any; }) {
                         <Button onClick={() => callApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
                         {/*//@ts-ignore*/}
                         <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
+
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
-                            {Array.from(listList).map((list) => {
-                                return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]}/>
+                            {Array.from(listList).map((list,index) => {
+                                return <ProfileMovieList key={index} listTitle={list[0]} movies={list[1]}/>
                             })}
-
-
-
                         </div>) : <p>nothing</p>}
                     </div>
 
