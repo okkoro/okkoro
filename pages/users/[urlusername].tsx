@@ -7,7 +7,7 @@ import {query} from "@firebase/database";
 import {docToJSON} from "../../lib/firebase";
 import {useRouter} from "next/router";
 import {Button, Col, Row} from "react-bootstrap";
-import {getRecommendation, convertIdsToMovies} from "../../lib/recommendations"
+import {getRecommendation} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
 import {UserContext} from "../../lib/context";
 import ProfileMovieList from "../../components/ProfileMovieList";
