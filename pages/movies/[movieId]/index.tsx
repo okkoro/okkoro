@@ -17,7 +17,7 @@ export default function MovieDetails() {
     const [movieGenres, setMovieGenres] = useState(null);
 
     const [activeUserReview, setActiveUserReview] = useState(null);
-    
+
     if (typeof movieId === "string" && (movieDetails == null || movieDetails.id != movieId)) {
         getMovieById(parseInt(movieId))
             .then((res) => {
@@ -70,12 +70,15 @@ export default function MovieDetails() {
                                 }
                             </Col>
 
-                            <Col className={"col-lg-9 col-md-6"}>
+                            <Col className={"col-lg-5 col-md-6"}>
                                 <h1 data-cy={`MovieTitle`}>{movieDetails.title}</h1>
                                 <p>{movieDetails.release_date}</p>
                                 <p>{movieDetails.vote_average}/10</p>
                                 <p>{movieGenres}</p>
                                 <p>{movieDetails.overview}</p>
+                            </Col>
+                            <Col className={"col-lg-2 col-md-6"}>
+                                <Link href={"/movies/" + movieId + "/lists"} data-cy={"addToListButton"}>Add To List</Link>
                             </Col>
                         </Row>
 
