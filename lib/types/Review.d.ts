@@ -4,6 +4,6 @@ type Review = {
     userId: string | number;
     score: string | number;
     text: string;
-    date: string;
+    date: any;
 
 };
