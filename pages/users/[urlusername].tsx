@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import banner from "public/okkoro_banner.png";
 import Image from 'next/image'
 import {fetchMasterList} from "../../lib/firebase";
@@ -7,6 +7,7 @@ import {Button, Col, Row} from "react-bootstrap";
 import {getRecommendation} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
 import ProfileMovieList from "../../components/ProfileMovieList";
+import {UserContext} from "../../lib/context";
 
 
 export default function Profile() {
@@ -110,7 +111,7 @@ function SignedInProfile(props: { urlusername: any; }) {
                         <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
 
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
-                            {Array.from(listList).map((list,index) => {
+                            {Array.from(listList).map((list) => {
                                 return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]} stateUpdate={example}/>
                             })}
                         </div>) : <p>nothing</p>}
