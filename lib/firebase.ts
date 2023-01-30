@@ -1,9 +1,8 @@
 import firebaseConfig from "./firebaseConfig";
-import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
-import { getFirestore, DocumentSnapshot } from "firebase/firestore";
-import {collection, getDocs, limit, orderBy, where} from "@firebase/firestore";
-import {query} from "@firebase/database";
+import {initializeApp} from "firebase/app";
+import {getAuth, GoogleAuthProvider} from "firebase/auth";
+import {DocumentSnapshot, getFirestore} from "firebase/firestore";
+import {collection, getDocs, limit, query, where} from "@firebase/firestore";
 
 // Initialize firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -28,7 +27,7 @@ export function docToJSON(doc: DocumentSnapshot) {
     }
 }
 
-export async function getMovieById(id : number) {
+export async function getMovieById(id: number) {
     const ref = collection(getFirestore(), 'movies');
     const genreQuery = query(
         // @ts-ignore
@@ -39,4 +38,12 @@ export async function getMovieById(id : number) {
 
     // @ts-ignore
     return docToJSON((await getDocs(genreQuery)).docs[0]);
+}
+
+export async function getReviewByMovieAndUsername(movieId: number, username: any) {
+    const ref = collection(getFirestore(), 'reviews');
+    const activeUserReviewQuery = query(ref, where('movieId', '==', movieId), where('userId', '==', username));
+
+    return await getDocs(activeUserReviewQuery);
+
 }
