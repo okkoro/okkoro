@@ -1,45 +1,29 @@
 import {Container} from "react-bootstrap";
-
 import MovieTile from "./MovieTile";
-import {collection, getDocs, orderBy, where} from "@firebase/firestore";
-import {getFirestore} from "firebase/firestore";
-import {query} from "@firebase/database";
-import {docToJSON} from "../lib/firebase";
-import {useState} from "react";
+import {fetchMovieDetailsForList} from "../lib/firebase";
+import {useEffect, useState} from "react";
 
 type propsType = {
     listTitle: string;
     movies: [number];
+
+    stateUpdate: ()=>void;
 }
 
-async function fetchMovieDetailsForList(movieIds: [number]) {
-    const ref = collection(getFirestore(), 'movies');
-    const searchQuery = query(
-        // @ts-ignore
-        ref,
-        where('id', "in", movieIds),
-        orderBy("title")
-    )
 
-
-
-    // console.table(userInfo);
-
-    // @ts-ignore
-    return (await getDocs(searchQuery)).docs.map(docToJSON);
-}
 
 export default function ProfileMovieList(props: propsType) {
     const [finalMovies, setMovies] = useState([])
 
+    useEffect(()=>{
+            fetchMovieDetailsForList(props.movies)
+                .then((res) => {
+                    // @ts-ignore
+                    setMovies(res)
+                    console.log(finalMovies)
+                })
+    },[props.movies])
 
-    if(finalMovies.length<1) {
-        fetchMovieDetailsForList(props.movies)
-            .then((res) => {
-                // @ts-ignore
-                setMovies(res)
-            })
-    }
 
 
 
@@ -49,11 +33,10 @@ export default function ProfileMovieList(props: propsType) {
         <Container fluid data-cy={`${props.listTitle}-ProfileMovieList`}>
             <h2>{props.listTitle}</h2>
             <div className={"d-flex flex-row flex-nowrap overflow-auto"}>
-                {/*TODO: replace with proper display logic*/}
                 {props.movies &&
-                    finalMovies.map((movie ) => (
+                    finalMovies.map((movie, index ) => (
                         //@ts-ignore
-                        <MovieTile key={movie.id} movie={movie}/>
+                        <MovieTile key={movie.id} movie={movie} list={props.listTitle} stateUpdate={props.stateUpdate}/>
                     ))
                 }
             </div>
