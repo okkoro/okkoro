@@ -19,6 +19,7 @@ export default function MovieDetails() {
     const [activeUserReview, setActiveUserReview] = useState(null);
 
     if (typeof movieId === "string" && (movieDetails == null || movieDetails.id != movieId)) {
+        //console.log("calling getMovieById");
         getMovieById(parseInt(movieId))
             .then((res) => {
                 let newMovie = res as Movie;
@@ -33,6 +34,7 @@ export default function MovieDetails() {
 
     const getActiveUserReview = () => {
         if (typeof movieId === "string") {
+            // console.log("calling getReviewByMovieAndUsername");
             getReviewByMovieAndUsername(parseInt(movieId), username)
                 .then((res) => {
                     if (!res.empty) { // @ts-ignore
@@ -129,8 +131,8 @@ function AddReviewModal(props: { movie: Movie, callback: () => void }) {
         toast.success("Review created!");
 
         //invalidate cache
-        setTimeout(() => {props.callback();}, 200)
-
+        // setTimeout(() => {props.callback();}, 200)
+        props.callback();
 
         //Close modal
         handleClose();
