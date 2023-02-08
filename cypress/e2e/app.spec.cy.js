@@ -13,3 +13,13 @@ describe('Index Testing', () => {
         })
     })
 })
+
+describe('Google', function () {
+    beforeEach(function () {
+        cy.loginByGoogleApi()
+    })
+
+    it('shows onboarding', function () {
+        cy.contains('Get Started').should('be.visible')
+    })
+})
