@@ -37,6 +37,9 @@
 // }
 
 // @ts-ignore
+import {getAuth, signInWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../../lib/firebase";
+
 Cypress.Commands.add('loginByGoogleApi', () => {
     cy.log('Logging in to Google')
     cy.request({
@@ -73,5 +76,49 @@ Cypress.Commands.add('loginByGoogleApi', () => {
         })
     })
 })
+
+Cypress.Commands.add(
+    'signIn',
+    (
+        redirectPath = '/',
+        credentials = {
+            email: "TestUserOkkoro@gmail.com" as string,
+            password: "OkkoroTestPassword123$" as string,
+        }
+    ) => {
+        cy.session([credentials.email, credentials.password],
+            () => {
+                console.log("test")
+                signInProgrammatically(credentials);
+            }
+        );
+
+        cy.visit(redirectPath);
+    }
+);
+
+export function signInProgrammatically({
+                                           email,
+                                           password,
+                                       }: {
+    email: string;
+    password: string;
+}) {
+
+    console.log("A: "+auth+"mail: "+email+"pass: "+password)
+
+    const signIn = signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+    ).then(
+
+    )
+        .catch((e) => {
+            console.error(e);
+        });
+
+    return cy.wrap(signIn);
+}
 
 export {}

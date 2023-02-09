@@ -18,6 +18,8 @@ export const googleProvider = new GoogleAuthProvider();
 export default firebaseApp;
 
 
+
+
 /**
  * Converts a firestore document to JSON
  * @param {DocumentSnapshot} doc

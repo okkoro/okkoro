@@ -1,3 +1,6 @@
+import {useContext} from "react";
+import {UserContext} from "../../lib/context";
+
 describe('Index Testing', () => {
     beforeEach(() => {
         cy.visit("/");
@@ -16,10 +19,12 @@ describe('Index Testing', () => {
 
 describe('Google', function () {
     beforeEach(function () {
-        cy.loginByGoogleApi()
+        cy.signIn("/")
     })
 
     it('shows onboarding', function () {
+
+
         cy.contains('Get Started').should('be.visible')
     })
 })

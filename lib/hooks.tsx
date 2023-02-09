@@ -6,6 +6,7 @@ import { doc, onSnapshot, getFirestore } from 'firebase/firestore';
 export function useUserData() {
     const [user] = useAuthState(auth);
     const [username, setUsername] = useState(null);
+    console.log("user"+user)
 
     useEffect(() => {
         let unsubscribe;
