@@ -51,7 +51,7 @@ export default async function handler(req: any, res: any) {
 }
 */
 
-async function createReview(review: Review) {
+export async function createReview(review: Review) {
     //validation
     if (!review.score || !review.text) {
         return null;
@@ -69,7 +69,7 @@ async function createReview(review: Review) {
     return review;
 }
 
-async function updateReview(review: Review) {
+export async function updateReview(review: Review) {
     if (review.id) {
         const id = review.id.toString();
         delete review.id;
