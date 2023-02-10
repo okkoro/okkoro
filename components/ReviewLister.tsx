@@ -13,7 +13,6 @@ export function ReviewLister(props: { movieId: number }) {
     const [querySnapshot] = useCollection(reviewQuery);
     const reviews = querySnapshot?.docs.map((doc) => doc.data());
 
-    // console.log("ReviewLister refresh")
     return (
         <>
             <Script src="https://kit.fontawesome.com/41b311bbbd.js" crossOrigin="anonymous" />
