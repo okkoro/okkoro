@@ -22,7 +22,7 @@ export default function OkNavbar() {
                 </Link>
             </Nav>
 
-            {(user && admin) && (<div>
+            {(user && admin) && (<div data-cy={"Admin-NavIndicator"}>
                 <i>admin</i>
                 </div>) }
 

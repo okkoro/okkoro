@@ -51,7 +51,7 @@ export function ReviewItem(props: { review: Review }) {
                 </p>
 
                 <div className={"d-flex justify-content-end"}>
-                    <Dropdown>
+                    <Dropdown data-cy={"Reviews-Dropdown"}>
                         <Dropdown.Toggle variant="" id="dropdown-basic">
                             <i className="fa-solid fa-ellipsis"></i>
                         </Dropdown.Toggle>
@@ -59,7 +59,7 @@ export function ReviewItem(props: { review: Review }) {
                         {/*TODO: Add functionality to these buttons*/}
                         <Dropdown.Menu>
                             {admin &&
-                                <Dropdown.Item>Admin Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
+                                <Dropdown.Item data-cy={"Reviews-Dropdown-AdminDelete"}>Admin Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
                             }
                             {username == props.review.userId ? (<>
                                     <Dropdown.Item>Edit <i className="fa-solid fa-file"></i></Dropdown.Item>
