@@ -26,7 +26,7 @@ export function ReviewLister(props: { movieId: number }) {
 }
 
 export function ReviewItem(props: { review: Review }) {
-    const {user, username} = useContext(UserContext);
+    const {user, username, admin} = useContext(UserContext);
 
     return (
         <Row className={"bg-light-gray text-black m-2 px-2 py-3 rounded"}>
@@ -58,6 +58,9 @@ export function ReviewItem(props: { review: Review }) {
 
                         {/*TODO: Add functionality to these buttons*/}
                         <Dropdown.Menu>
+                            {admin &&
+                                <Dropdown.Item>Admin Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
+                            }
                             {username == props.review.userId ? (<>
                                     <Dropdown.Item>Edit <i className="fa-solid fa-file"></i></Dropdown.Item>
                                     <Dropdown.Item>Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
