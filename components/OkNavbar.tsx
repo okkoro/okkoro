@@ -6,7 +6,7 @@ import logo from "public/okkoro_banner.png";
 import Image from "next/image";
 
 export default function OkNavbar() {
-    const {user, username} = useContext(UserContext);
+    const {user, username, admin} = useContext(UserContext);
 
     return (
         <Navbar className={"border-bottom border-dark-gray sticky-top bg-black pe-1"}>
@@ -21,6 +21,10 @@ export default function OkNavbar() {
                     Movies
                 </Link>
             </Nav>
+
+            {(user && admin) && (<div>
+                <i>admin</i>
+                </div>) }
 
             <Nav className={"ms-2"}>
                 {username && (
