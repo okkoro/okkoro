@@ -1,5 +1,5 @@
 type Review = {
-    id: number;
+    id? : number;
     movieId: string | number;
     userId: string | number;
     score: string | number;

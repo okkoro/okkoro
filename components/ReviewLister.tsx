@@ -43,7 +43,7 @@ export function ReviewItem(props: { review: Review }) {
                         </h5>
                     </Col>
                     <Col md={"2"} className={"text-end"}>
-                        <h5>{props.review.date.toDate().toDateString()}</h5>
+                        {props.review.date ? <h5>{props.review.date.toDate().toDateString()}</h5> : props.review.date}
                     </Col>
                 </Row>
                 <p>
