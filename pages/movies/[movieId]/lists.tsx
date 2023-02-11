@@ -3,14 +3,14 @@ import {UserContext} from "../../../lib/context";
 import {useRouter} from "next/router";
 import {getMovieById, getUserByUsername, addMovieToList} from "../../../lib/firebase";
 import {Col, Container, Form, Image, Row} from "react-bootstrap";
+import toast from "react-hot-toast";
 
 export default function AddToList() {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const {movieId} = useRouter().query;
+    const router = useRouter();
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const {movieId} = router.query;
+
     const [movieDetails, setMovieDetails] = useState(null as any);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
     const [movieGenres, setMovieGenres] = useState(null);
 
     if (typeof movieId === "string" && (movieDetails == null || movieDetails.id != movieId)) {
@@ -45,9 +45,19 @@ export default function AddToList() {
         }
     }
 
-    const addToList = async function(){
+    const addToList = async (event: any) => {
+        event.preventDefault();
+
         // @ts-ignore
-        await addMovieToList(movieId, userQuery.at(0), document.getElementById("list-selector").value, user)
+        const res = await addMovieToList(movieId, userQuery.at(0), document.getElementById("list-selector").value, user)
+
+        if (res) {
+            toast.success("Added movie to list");
+            await router.push("/movies/" + movieId);
+        }
+        else {
+            toast.error("Could not add movie to list - is it already in it?");
+        }
     }
 
     // @ts-ignore
@@ -68,7 +78,7 @@ export default function AddToList() {
                                 </div>
                             </Col>
                             <Col className={"col-4 p-3 text-center"}>
-                                <Form action={"/movies/" + movieId}>
+                                <Form>
                                     <Form.Label><h4>Add {movieDetails.title} to list:</h4></Form.Label>
                                     
                                     <Form.Select data-cy={"list-selector"} id={"list-selector"}>
