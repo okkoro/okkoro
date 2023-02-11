@@ -88,7 +88,7 @@ export default function MovieDetails() {
                             </Col>
                         </Row>
 
-                        Reviews:
+                        <h3 className={"ps-3 mt-3 mb-2"}>Reviews:</h3>
                         <ReviewLister movieId={movieDetails.id} />
 
                     </Container>
