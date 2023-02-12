@@ -20,7 +20,6 @@ export default function ProfileMovieList(props: propsType) {
                 .then((res) => {
                     // @ts-ignore
                     setMovies(res)
-                    console.log(finalMovies)
                 })
     },[props.movies])
 
@@ -34,7 +33,7 @@ export default function ProfileMovieList(props: propsType) {
             <h2>{props.listTitle}</h2>
             <div className={"d-flex flex-row flex-nowrap overflow-auto"}>
                 {props.movies &&
-                    finalMovies.map((movie, index ) => (
+                    finalMovies.map((movie ) => (
                         //@ts-ignore
                         <MovieTile key={movie.id} movie={movie} list={props.listTitle} stateUpdate={props.stateUpdate}/>
                     ))

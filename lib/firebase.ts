@@ -30,7 +30,7 @@ export function docToJSON(doc: DocumentSnapshot) {
 }
 
 export async function getMovieById(id: number) {
-    const ref = collection(getFirestore(), 'movies');
+    const ref = collection(firestore, 'movies');
     const genreQuery = query(
         // @ts-ignore
         ref,
@@ -43,7 +43,8 @@ export async function getMovieById(id: number) {
 }
 
 export async function fetchMasterList(urlUsername: string) {
-    const ref = collection(getFirestore(), 'users');
+    console.log("DB READ! (fetchmasterlist)")
+    const ref = collection(firestore, 'users');
     const userInfoQuery = query(
         // @ts-ignore
         ref,
@@ -53,20 +54,20 @@ export async function fetchMasterList(urlUsername: string) {
     // @ts-ignore
     const userInfo = docToJSON((await getDocs(userInfoQuery)).docs[0]);
 
-    console.log("DB READ!")
+
 
     return userInfo.listedMovies;
 }
 
 
 export async function fetchUserInfo(userId: string) {
-    console.log("DB READ!")
+    console.log("DB READ! (fetchuser)")
     return getDoc(doc(firestore, "users", userId))
 
 }
 
 export async function deleteMovieFromList(id: number, list: string, userId: string) {
-    console.log("DB READ!")
+    console.log("DB WRITE! (deleteMovieFromList)")
     fetchUserInfo(userId).then((res) => {
         var listedMovies: ListedMovie[] = res.get("listedMovies")
 
@@ -81,8 +82,8 @@ export async function deleteMovieFromList(id: number, list: string, userId: stri
 }
 
 export async function fetchMovieDetailsForList(movieIds: [number]) {
-    console.log("DB READ!")
-    const ref = collection(getFirestore(), 'movies');
+    console.log("DB READ! (fetchDetailsForList)")
+    const ref = collection(firestore, 'movies');
     const searchQuery = query(
         // @ts-ignore
         ref,
@@ -90,14 +91,46 @@ export async function fetchMovieDetailsForList(movieIds: [number]) {
         orderBy("title")
     )
 
-
     // console.table(userInfo);
     // @ts-ignore
     return (await getDocs(searchQuery)).docs.map(docToJSON);
 }
 
+export async function fetchAllGenres() {
+    console.log("DB READ! (fetchGenres)")
+    const ref = collection(firestore, 'genres');
+    const genreQuery = query(
+        // @ts-ignore
+        ref,
+        orderBy("name"),
+    )
+
+    return (await getDocs(genreQuery)).docs.map(docToJSON);
+}
+
+export async function fetchGenres(userId: string) {
+    const userInfo = await fetchUserInfo(userId)
+    return await userInfo.get("genres")
+}
+
+export async function updateGenres(userId: string, genres: Genre[]) {
+    console.log("DB WRITE! (updateGenres)")
+    let data : Genre[] = []
+    genres.forEach((genre)=> {
+        if(genre.isChosen){
+            data.push({id: genre.id, name: genre.name})
+        }
+    })
+    console.log(data)
+
+    await setDoc(doc(firestore, "users", userId), {"genres":data}, {merge: true})
+
+
+
+}
+
 export async function getReviewByMovieAndUsername(movieId: number, username: any) {
-    const ref = collection(getFirestore(), 'reviews');
+    const ref = collection(firestore, 'reviews');
     const activeUserReviewQuery = query(ref, where('movieId', '==', movieId), where('userId', '==', username));
 
     return await getDocs(activeUserReviewQuery);
@@ -105,7 +138,7 @@ export async function getReviewByMovieAndUsername(movieId: number, username: any
 }
 
 export async function addMovieToList(id: string, user: any, list: string, userInfo: any) {
-    const ref = doc(getFirestore(), 'users', userInfo.uid);
+    const ref = doc(firestore, 'users', userInfo.uid);
     for (let i = 0; i < user.listedMovies.length; i++) {
         if (user.listedMovies.at(i).movieId == id) {
             if (user.listedMovies.at(i).lists.indexOf(list) > -1) {
@@ -128,7 +161,7 @@ export async function addMovieToList(id: string, user: any, list: string, userIn
 }
 
 export function getUserByUsername(username: any) {
-    const ref = collection(getFirestore(), 'users');
+    const ref = collection(firestore, 'users');
     const userInfoQuery = query(
         // @ts-ignore
         ref,
@@ -139,6 +172,5 @@ export function getUserByUsername(username: any) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [querySnapshot] = useCollection(userInfoQuery);
 
-    const userInfo = querySnapshot?.docs.map((doc) => doc.data());
-    return userInfo
+    return querySnapshot?.docs.map((doc) => doc.data());
 }
