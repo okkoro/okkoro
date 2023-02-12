@@ -36,11 +36,11 @@ export function GenreLister(props: { genres: Genre[] }) {
     }
 
     return (
-        <>
+        <div >
             <Button variant={"green"} className={"rounded-pill text-black"} onClick={prefToggle}>Edit Preferences</Button>
-            <Modal size={"lg"} show={showPref} onHide={handleClose}>
+            <Modal size={"sm"} show={showPref} onHide={handleClose} className={"prefs"}>
                 <Modal.Header closeButton>
-                    <Modal.Title>{username}&apos;s Preferences</Modal.Title>
+                    <Modal.Title>Genre Preferences</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <ul>
@@ -51,10 +51,10 @@ export function GenreLister(props: { genres: Genre[] }) {
                 </ul>
                 </Modal.Body>
                 <Modal.Footer>
-                <Button onClick={submit}>Submit</Button>
+                <Button onClick={submit} variant={"green"} className={"rounded-pill text-black"}>Submit</Button>
                 </Modal.Footer>
             </Modal>
-        </>
+        </div>
     );
 
 }
@@ -69,13 +69,13 @@ export function GenreItem(props: { genre: Genre, state: Genre[], handler: (genre
     };
 
     return (
-        <label>
+        <label className={"prefCheck"}>
             <input
                 type="checkbox"
                 checked={checked}
                 onChange={handleChange}
             />
-            {genre.name}
+            &nbsp;{genre.name}
         </label>
     )
 }
