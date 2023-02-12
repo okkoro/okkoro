@@ -26,7 +26,7 @@ export function ReviewLister(props: { movieId: number }) {
 }
 
 export function ReviewItem(props: { review: Review }) {
-    const {user, username} = useContext(UserContext);
+    const {user, username, admin} = useContext(UserContext);
 
     return (
         <Row className={"bg-light-gray text-black m-2 px-2 py-3 rounded"}>
@@ -43,7 +43,7 @@ export function ReviewItem(props: { review: Review }) {
                         </h5>
                     </Col>
                     <Col md={"2"} className={"text-end"}>
-                        <h5>{props.review.date.toDate().toDateString()}</h5>
+                        {props.review.date ? <h5>{props.review.date.toDate().toDateString()}</h5> : props.review.date}
                     </Col>
                 </Row>
                 <p>
@@ -51,13 +51,16 @@ export function ReviewItem(props: { review: Review }) {
                 </p>
 
                 <div className={"d-flex justify-content-end"}>
-                    <Dropdown>
+                    <Dropdown data-cy={"Reviews-Dropdown"}>
                         <Dropdown.Toggle variant="" id="dropdown-basic">
                             <i className="fa-solid fa-ellipsis"></i>
                         </Dropdown.Toggle>
 
                         {/*TODO: Add functionality to these buttons*/}
                         <Dropdown.Menu>
+                            {admin &&
+                                <Dropdown.Item data-cy={"Reviews-Dropdown-AdminDelete"}>Admin Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
+                            }
                             {username == props.review.userId ? (<>
                                     <Dropdown.Item>Edit <i className="fa-solid fa-file"></i></Dropdown.Item>
                                     <Dropdown.Item>Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>

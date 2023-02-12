@@ -8,6 +8,7 @@ import {UserContext} from "../../../lib/context";
 import toast from "react-hot-toast";
 import {QueryDocumentSnapshot} from "@firebase/firestore";
 import Link from "next/link";
+import {createReview, updateReview} from "../../../lib/reviews";
 
 export default function MovieDetails() {
     const {username} = useContext(UserContext);
@@ -19,6 +20,7 @@ export default function MovieDetails() {
     const [activeUserReview, setActiveUserReview] = useState(null);
 
     if (typeof movieId === "string" && (movieDetails == null || movieDetails.id != movieId)) {
+        //console.log("calling getMovieById");
         getMovieById(parseInt(movieId))
             .then((res) => {
                 let newMovie = res as Movie;
@@ -33,6 +35,7 @@ export default function MovieDetails() {
 
     const getActiveUserReview = () => {
         if (typeof movieId === "string") {
+            // console.log("calling getReviewByMovieAndUsername");
             getReviewByMovieAndUsername(parseInt(movieId), username)
                 .then((res) => {
                     if (!res.empty) { // @ts-ignore
@@ -49,13 +52,15 @@ export default function MovieDetails() {
     // console.log(`Moviedetails refreshed: moviedetails + ${movieDetails} + Genres: ${movieGenres} + activeUserReview ${activeUserReview}`)
 
     return (
-        <div className="row">
-            <div className="col">
+        <Row>
+            <Col>
                 {movieDetails != null && (
                     <Container>
                         <Row>
                             <Col className={"text-center"}>
                                 <Image className={"w-75 p-3"} style={{borderRadius: 25}} src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path} alt="image of movie" />
+
+                                <br/>
 
                                 {username ?
                                     <>
@@ -70,25 +75,26 @@ export default function MovieDetails() {
                                 }
                             </Col>
 
-                            <Col className={"col-lg-5 col-md-6"}>
-                                <h1 data-cy={`MovieTitle`}>{movieDetails.title}</h1>
+                            <Col className={"col-lg-9"}>
+                                <div className={"d-flex flex-row"}>
+                                    <h1 className={"d-inline"} data-cy={`MovieTitle`}>{movieDetails.title}</h1>
+                                    <Link className={"ms-auto align-self-center btn btn-green rounded-pill"} href={"/movies/" + movieId + "/lists"} data-cy={"addToListButton"}>Add To List</Link>
+                                </div>
+
                                 <p>{movieDetails.release_date}</p>
                                 <p>{movieDetails.vote_average}/10</p>
                                 <p>{movieGenres}</p>
                                 <p>{movieDetails.overview}</p>
                             </Col>
-                            <Col className={"col-lg-2 col-md-6"}>
-                                <Link href={"/movies/" + movieId + "/lists"} data-cy={"addToListButton"}>Add To List</Link>
-                            </Col>
                         </Row>
 
-                        Reviews:
+                        <h3 className={"ps-3 mt-3 mb-2"}>Reviews:</h3>
                         <ReviewLister movieId={movieDetails.id} />
 
                     </Container>
                 )}
-            </div>
-        </div>
+            </Col>
+        </Row>
     )
 }
 
@@ -103,34 +109,22 @@ function AddReviewModal(props: { movie: Movie, callback: () => void }) {
     const handleSubmit = async (event: any) => {
         event.preventDefault();
 
-        const data = {
-            movieId: props.movie.id,
-            userId: username,
-            score: event.target.score.value,
-            text: event.target.text.value
-        }
+        // @ts-ignore
+        const review : Review = {movieId: props.movie.id, userId: username, score: event.target.score.value, text: event.target.text.value}
 
-        const JSONdata = JSON.stringify(data);
 
-        const endpoint = '/api/reviews'
-
-        const options = {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSONdata,
-        }
-
-        const response = await fetch(endpoint, options);
-        const result = await response.json();
         // alert(`Data: ${result.data}`);
 
-        toast.success("Review created!");
+        const res = await createReview(review);
+
+        if (res)
+            toast.success("Review created!");
+        else
+            toast.error("Failed to create review")
 
         //invalidate cache
-        setTimeout(() => {props.callback();}, 200)
-
+        // setTimeout(() => {props.callback();}, 200)
+        props.callback();
 
         //Close modal
         handleClose();
@@ -158,32 +152,20 @@ function EditReviewModal(props: { movie: Movie, reviewToEditDoc: QueryDocumentSn
     const placeholders = {text: props.reviewToEditDoc.get("text"), score: props.reviewToEditDoc.get("score")};
 
     const handleSubmit = async (event: any) => {
+        //Close modal
+        handleClose();
+
         event.preventDefault();
 
-        const data = {
-            ...props.reviewToEditDoc.data(),
-            id: props.reviewToEditDoc.id,
-            score: event.target.score.value,
-            text: event.target.text.value
-        }
+        // @ts-ignore
+        const review : Review = {...props.reviewToEditDoc.data(), id: props.reviewToEditDoc.id, score: event.target.score.value, text: event.target.text.value}
 
-        const JSONdata = JSON.stringify(data);
+        const res = await updateReview(review);
 
-        const endpoint = '/api/reviews'
-
-        const options = {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSONdata,
-        }
-
-        const response = await fetch(endpoint, options);
-        const result = await response.json();
-        // alert(`Data: ${result.data}`);
-
-        toast.success("Review updated!");
+        if (res)
+            toast.success("Review updated!");
+        else
+            toast.error("Failed to update review")
 
         //Close modal
         handleClose();

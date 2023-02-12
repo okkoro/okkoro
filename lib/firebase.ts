@@ -142,22 +142,21 @@ export async function addMovieToList(id: string, user: any, list: string, userIn
     for (let i = 0; i < user.listedMovies.length; i++) {
         if (user.listedMovies.at(i).movieId == id) {
             if (user.listedMovies.at(i).lists.indexOf(list) > -1) {
-                return;
+                return false;
             }
 
             user.listedMovies.at(i).lists.push(list);
-            // @ts-ignore
+
             await setDoc(ref, user);
-            // @ts-ignore
-            return;
+            return true;
         }
     }
 
     user.listedMovies.push({"lists": [list], "movieId": +id});
-    // @ts-ignore
+
     await setDoc(ref, user);
-    // @ts-ignore
-    return;
+
+    return true;
 }
 
 export function getUserByUsername(username: any) {

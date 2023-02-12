@@ -76,7 +76,7 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
   //TODO: figure fade out anim
 }
 
-.cardAnim:hover::after {
+.cardAnim>a:hover::after {
   content: '';
   position: absolute;
   left: 0;

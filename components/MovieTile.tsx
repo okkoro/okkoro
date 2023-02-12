@@ -22,7 +22,6 @@ export default function MovieTile(props: propsType) {
         )
     }
 
-    // @ts-ignore
     return (
         <div className={"m-2"} data-cy={`MovieTile`}>
             <Card className="bg-light-gray cardAnim" style={{width: "14rem"}}>
