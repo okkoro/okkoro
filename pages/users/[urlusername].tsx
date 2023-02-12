@@ -111,7 +111,7 @@ function SignedInProfile(props: { urlusername: any; }) {
                         <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
 
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
-                            {Array.from(listList).map((list) => {
+                            {Array.from(listList).sort((a,b) => (a.at(0) > b.at(0)) ? 1 : ((b.at(0) > a.at(0)) ? -1 : 0)).map((list) => {
                                 return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]} stateUpdate={example}/>
                             })}
                         </div>) : <p>nothing</p>}
