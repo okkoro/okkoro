@@ -122,7 +122,6 @@ export async function updateGenres(userId: string, genres: Genre[]) {
             data.push({id: genre.id, name: genre.name})
         }
     })
-    console.log(data)
 
     await setDoc(doc(firestore, "users", userId), {"genres":data}, {merge: true})
 
