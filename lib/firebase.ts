@@ -71,9 +71,8 @@ export async function deleteMovieFromList(id: number, list: string, userId: stri
     fetchUserInfo(userId).then((res) => {
         var listedMovies: ListedMovie[] = res.get("listedMovies")
 
-        listedMovies[listedMovies.findIndex(x => x.movieId == id)].lists = listedMovies[listedMovies.findIndex(x => x.movieId == id)].lists.filter(x => x !== list)
-        listedMovies = listedMovies.filter((listedMovie)=>{ listedMovie.lists.length == 0})
-        console.log(listedMovies)
+        listedMovies[listedMovies.findIndex(x => x.movieId == id)].lists = listedMovies[listedMovies.findIndex(x => x.movieId == id)].lists.filter(x => x != list)
+        listedMovies = listedMovies.filter(listedMovie=>!(listedMovie.lists.length == 0))
         let data = {
             listedMovies: listedMovies
         }

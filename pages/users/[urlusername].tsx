@@ -115,9 +115,6 @@ function SignedInProfile(props: { urlusername: any; }) {
     function example(){
         setReloads(reloads+1)
     }
-
-
-
     // @ts-ignore
     return (
         <div>
@@ -141,8 +138,6 @@ function SignedInProfile(props: { urlusername: any; }) {
                         {(username && username == urlusername) &&
                             <GenreLister genres={genres}/>
                         }
-
-
 
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).map((list) => {
