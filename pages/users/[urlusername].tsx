@@ -1,13 +1,15 @@
 import {useContext, useEffect, useState} from "react";
 import banner from "public/okkoro_banner.png";
 import Image from 'next/image'
-import {fetchMasterList} from "../../lib/firebase";
+import {fetchAllGenres, fetchGenres, fetchMasterList} from "../../lib/firebase";
 import {useRouter} from "next/router";
 import {Button, Col, Row} from "react-bootstrap";
 import {getRecommendation} from "../../lib/recommendations"
 import MovieList from "../../components/MovieList";
 import ProfileMovieList from "../../components/ProfileMovieList";
 import {UserContext} from "../../lib/context";
+import {GenreLister} from "../../components/GenreLister";
+
 
 
 export default function Profile() {
@@ -18,21 +20,11 @@ export default function Profile() {
     return (
 
         <div className="row">
-            {/*{urlusername == username ? <SignedInProfile urlusername={urlusername}/> : <WrongProfile/>}*/}
             <SignedInProfile urlusername={urlusername}/>
         </div>
     )
 
 
-}
-
-function WrongProfile() {
-    return (
-        <div>
-            <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
-            <h1>{"Woops! This isn't your account"}</h1>
-        </div>
-    )
 }
 
 function SignedInProfile(props: { urlusername: any; }) {
@@ -45,7 +37,9 @@ function SignedInProfile(props: { urlusername: any; }) {
 
     const [reloads, setReloads] = useState(1)
 
+    const [genres, setGenres] = useState<Genre[]>([])
 
+    const {user, username} = useContext(UserContext);
 
 
     useEffect(()=>{
@@ -58,7 +52,35 @@ function SignedInProfile(props: { urlusername: any; }) {
     },[urlusername,reloads])
 
     //recom
-    const {user, username} = useContext(UserContext);
+
+
+    useEffect(()=>{
+        let obtainedGenres : number[] = []
+        let data : Genre[] = []
+        if(user) {
+            // @ts-ignore
+            fetchGenres(user.uid).then((userGenres) => {
+                if(userGenres) {
+                    userGenres.forEach((userGenre: Genre) => {
+                        obtainedGenres.push(userGenre.id)
+                    })
+                }
+                fetchAllGenres().then((possibleGenres)=>{
+                    possibleGenres.forEach((possibleGenre)=>{
+                        if(obtainedGenres.includes(possibleGenre.id)){
+                            data.push({id:possibleGenre.id,name:possibleGenre.name,isChosen:true})
+                        }else{
+                            data.push({id:possibleGenre.id,name:possibleGenre.name,isChosen:false})
+                        }
+                    })
+                    setGenres(data);
+                })
+
+            })
+        }
+
+    },[user])
+
     const CallApi = async function () {
         // @ts-ignore
         getRecommendation(user.uid).then((res) => {
@@ -93,22 +115,29 @@ function SignedInProfile(props: { urlusername: any; }) {
     function example(){
         setReloads(reloads+1)
     }
-
     // @ts-ignore
     return (
         <div>
             <Row>
                 <Col className="text-center">
                     <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
-                    <h1>Welcome {urlusername}</h1>
+                    <h1>{urlusername}&apos;s Page</h1>
                 </Col>
             </Row>
             <Row>
                 <Col className="flex-row-reverse">
                     <div>
-                        <Button onClick={() => CallApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
-                        {/*//@ts-ignore*/}
-                        <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
+                        {(username && username == urlusername) &&
+                            <>
+                                <Button variant={"pink"} className={"rounded-pill text-black"} onClick={() => CallApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
+                                {/*//@ts-ignore*/}
+                                <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
+                            </>
+                        }
+
+                        {(username && username == urlusername) &&
+                            <GenreLister genres={genres}/>
+                        }
 
                         {userMasterList != null && userMasterList.length > 0 ? (<div>
                             {Array.from(listList).sort((a,b) => (a.at(0) > b.at(0)) ? 1 : ((b.at(0) > a.at(0)) ? -1 : 0)).map((list) => {
