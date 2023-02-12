@@ -26,7 +26,7 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
 .cardTextPos {
   position: absolute;
   transform: translate(0px, -125%);
-  z-index: 99999 !important;
+  z-index: 1;
 }
 
 .xButton{
@@ -114,14 +114,9 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
 }
 
 //Pref modal
-.prefs::backdrop {
-  background: rgba(255,0,0,.25);
-}
-
 .prefCheck{
   accent-color: #FC7DAF;
 }
-
 ul {
   list-style-type: none;
 }

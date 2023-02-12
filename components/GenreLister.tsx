@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 export function GenreLister(props: { genres: Genre[] }) {
 
-    const {user, username} = useContext(UserContext);
+    const {user} = useContext(UserContext);
 
     const genres = props.genres;
 
@@ -36,9 +36,9 @@ export function GenreLister(props: { genres: Genre[] }) {
     }
 
     return (
-        <div >
+        <div>
             <Button variant={"green"} className={"rounded-pill text-black"} onClick={prefToggle}>Edit Preferences</Button>
-            <Modal size={"sm"} show={showPref} onHide={handleClose} className={"prefs"}>
+            <Modal size={"sm"} show={showPref} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Genre Preferences</Modal.Title>
                 </Modal.Header>
