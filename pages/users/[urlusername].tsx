@@ -132,7 +132,7 @@ function SignedInProfile(props: { urlusername: any; }) {
                     <div>
                         {(username && username == urlusername) &&
                             <>
-                                <Button onClick={() => CallApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
+                                <Button variant={"pink"} className={"rounded-pill text-black"} onClick={() => CallApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
                                 {/*//@ts-ignore*/}
                                 <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
                             </>
