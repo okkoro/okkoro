@@ -1,37 +1,62 @@
-import {Button} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 import {useContext, useState} from "react";
 import {UserContext} from "../lib/context";
 import {updateGenres} from "../lib/firebase";
+import toast from "react-hot-toast";
 
 
 export function GenreLister(props: { genres: Genre[] }) {
 
-    const {user} = useContext(UserContext);
+    const {user, username} = useContext(UserContext);
 
     const genres = props.genres;
+
+    const [showPref, setShowPref] = useState(false)
 
     function handler(genre: Genre){
         genres[genres.findIndex((obj => obj.id == genre.id))].isChosen = !genre.isChosen
     }
 
     function submit(){
-        if(user) {
-            // @ts-ignore
-            updateGenres(user.uid, genres)
-        }
+        // @ts-ignore
+        updateGenres(user.uid, genres).then(()=> {
+            setShowPref(false)
+            toast.success("Preferences Updated");
+        }).catch(()=>{
+            alert("error updating preferences")
+        })
+    }
+
+    function prefToggle(){
+        setShowPref(!showPref)
+    }
+
+    function handleClose(){
+        setShowPref(false);
     }
 
     return (
-        <div>
-            <ul>
-                {genres && genres.length > 0 ? genres.map((genre) =>
-                        <li key={genre.id}><GenreItem genre={genre} state={genres} handler={handler}/></li>
-                    ) : <div>Nothing</div>
-                }
-            </ul>
-            <Button onClick={submit}>Submit</Button>
-        </div>
+        <>
+            <Button variant={"green"} className={"rounded-pill text-black"} onClick={prefToggle}>Edit Preferences</Button>
+            <Modal size={"lg"} show={showPref} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>{username}&apos;s Preferences</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                <ul>
+                    {genres && genres.length > 0 ? genres.map((genre) =>
+                            <li key={genre.id}><GenreItem genre={genre} state={genres} handler={handler}/></li>
+                        ) : <div>Loading Genres...</div>
+                    }
+                </ul>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button onClick={submit}>Submit</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
+
 }
 
 export function GenreItem(props: { genre: Genre, state: Genre[], handler: (genre:Genre)=>void}) {

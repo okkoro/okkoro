@@ -39,8 +39,6 @@ function SignedInProfile(props: { urlusername: any; }) {
 
     const [genres, setGenres] = useState<Genre[]>([])
 
-    const [showPref, setShowPref] = useState(false)
-
     const {user, username} = useContext(UserContext);
 
 
@@ -118,9 +116,7 @@ function SignedInProfile(props: { urlusername: any; }) {
         setReloads(reloads+1)
     }
 
-    function prefToggle(){
-        setShowPref(!showPref)
-    }
+
 
     // @ts-ignore
     return (
@@ -143,12 +139,7 @@ function SignedInProfile(props: { urlusername: any; }) {
                         }
 
                         {(username && username == urlusername) &&
-                            <>
-                            <Button variant={"green"} className={"rounded-pill text-black"} onClick={prefToggle}>Edit Preferences</Button>
-                            { showPref &&
-                                <GenreLister genres={genres}/>
-                            }
-                            </>
+                            <GenreLister genres={genres}/>
                         }
 
 
