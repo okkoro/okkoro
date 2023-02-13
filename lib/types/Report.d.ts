@@ -13,4 +13,6 @@ type Report = {
     text: string;
 
     userId: string;
+
+    reporter?: string;
 };

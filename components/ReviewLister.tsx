@@ -6,7 +6,6 @@ import Script from "next/script";
 import {useContext, useState} from "react";
 import {UserContext} from "../lib/context";
 import {submitReport} from "../lib/firebase";
-import toast from "react-hot-toast";
 
 
 export function ReviewLister(props: { movieId: number }) {
@@ -44,9 +43,9 @@ export function ReviewItem(props: { review: Review }) {
 
     function submit(event: any){
         event.preventDefault()
-        submitReport(props.review, event.target.text.value)
+        // @ts-ignore
+        submitReport(props.review, event.target.text.value, username)
         setShowReason(false)
-        toast.success("Report Submitted To Be Reviewed");
     }
 
     return (
@@ -70,6 +69,7 @@ export function ReviewItem(props: { review: Review }) {
                 <p>
                     {props.review.text}
                 </p>
+                { username &&
 
                 <div className={"d-flex justify-content-end"}>
                     <Dropdown data-cy={"Reviews-Dropdown"}>
@@ -95,6 +95,7 @@ export function ReviewItem(props: { review: Review }) {
                         </Dropdown.Menu>
                     </Dropdown>
                 </div>
+                }
             </Col>
         </Row>
     )
