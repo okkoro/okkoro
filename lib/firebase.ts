@@ -2,7 +2,19 @@ import firebaseConfig from "./firebaseConfig";
 import {initializeApp} from "firebase/app";
 import {getAuth, GoogleAuthProvider} from "firebase/auth";
 import {DocumentSnapshot, getFirestore} from "firebase/firestore";
-import {collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc, where} from "@firebase/firestore";
+import {
+    addDoc,
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    limit,
+    orderBy,
+    query,
+    serverTimestamp,
+    setDoc,
+    where
+} from "@firebase/firestore";
 import {useCollection} from "react-firebase-hooks/firestore";
 
 // Initialize firebase
@@ -172,4 +184,21 @@ export function getUserByUsername(username: any) {
     const [querySnapshot] = useCollection(userInfoQuery);
 
     return querySnapshot?.docs.map((doc) => doc.data());
+}
+
+export function submitReport(review: Review, reason: string){
+    const data = {
+        date: serverTimestamp(),
+        reason: reason,
+        removed: false,
+        reviewId: review.id,
+        reviewed: false,
+        text: review.text,
+        userId: review.userId,
+    }
+    addDoc(collection(firestore, 'reports'), data)
+        .catch((e) => {
+            alert("failed to submit report: ");
+            throw e;
+        });
 }
