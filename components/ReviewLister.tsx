@@ -1,10 +1,11 @@
 import {collection, query, where} from "@firebase/firestore";
 import {getFirestore} from "firebase/firestore";
 import {useCollection} from "react-firebase-hooks/firestore";
-import {Col, Dropdown, Row, Modal, Form} from "react-bootstrap";
+import {Col, Dropdown, Row, Modal, Form, Button} from "react-bootstrap";
 import Script from "next/script";
 import {useContext, useState} from "react";
 import {UserContext} from "../lib/context";
+import {submitReport} from "../lib/firebase";
 
 
 export function ReviewLister(props: { movieId: number }) {
@@ -40,7 +41,10 @@ export function ReviewItem(props: { review: Review }) {
         setShowReason(false)
     }
 
-    function submit(){
+    function submit(event: any){
+        event.preventDefault()
+        console.log(props.review)
+        submitReport(props.review, event.target.text.value)
         return alert("submit")
     }
 
@@ -95,7 +99,7 @@ export function ReviewItem(props: { review: Review }) {
     )
 }
 
-export function ReportModal(props: {show:boolean,handleClose: () => void, handleSubmit: ()=>void}) {
+export function ReportModal(props: {show:boolean,handleClose: () => void, handleSubmit: (event: any)=>void}) {
 
 
     return (
@@ -113,7 +117,9 @@ export function ReportModal(props: {show:boolean,handleClose: () => void, handle
                 </Form>
             </Modal.Body>
             <Modal.Footer>
-
+                <Button variant={"danger"} className={"rounded-pill text-black"} type={"submit"} form={"reportForm"}>
+                    Submit Review
+                </Button>
             </Modal.Footer>
         </Modal>
         </div>

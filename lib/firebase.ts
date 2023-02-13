@@ -186,12 +186,14 @@ export function getUserByUsername(username: any) {
     return querySnapshot?.docs.map((doc) => doc.data());
 }
 
-export function submitReport(review: Review, reason: string){
+export async function submitReport(review: Review, reason: string) {
+    const id = await getReviewByMovieAndUsername(review.movieId as number, review.userId).then((doc) => doc.docs[0].id)
+
     const data = {
         date: serverTimestamp(),
         reason: reason,
         removed: false,
-        reviewId: review.id,
+        reviewId: id,
         reviewed: false,
         text: review.text,
         userId: review.userId,
