@@ -17,8 +17,7 @@ describe('Admin Testing', () => {
         cy.get('[data-cy="MovieTitle"]')
 
         //Get to dropdown menu
-        cy.get('[data-cy="Reviews-Dropdown"]').first().click();
-        cy.get('[data-cy="Reviews-Dropdown-AdminDelete"]').should('not.exist');
+        cy.get('[data-cy="Reviews-Dropdown"]').should('not.exist');
     })
 
 })
