@@ -2,8 +2,9 @@ import firebaseConfig from "./firebaseConfig";
 import {initializeApp} from "firebase/app";
 import {getAuth, GoogleAuthProvider} from "firebase/auth";
 import {DocumentSnapshot, getFirestore} from "firebase/firestore";
-import {collection, doc, getDoc, getDocs, limit, orderBy, query, setDoc, where} from "@firebase/firestore";
+import {addDoc, collection, doc, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, where} from "@firebase/firestore";
 import {useCollection} from "react-firebase-hooks/firestore";
+import toast from "react-hot-toast";
 
 // Initialize firebase
 const firebaseApp = initializeApp(firebaseConfig);
@@ -172,4 +173,35 @@ export function getUserByUsername(username: any) {
     const [querySnapshot] = useCollection(userInfoQuery);
 
     return querySnapshot?.docs.map((doc) => doc.data());
+}
+
+export async function didUserReport(reviewId: string, reporter:string) {
+    const ref = collection(firestore, 'reports');
+    const reportQuery = query(ref, where('reviewId', '==', reviewId), where('reporter', '==', reporter));
+
+    const report = await getDocs(reportQuery)
+    return report.size>0
+}
+
+export async function submitReport(review: Review, reason: string, reporter:string) {
+        const id = await getReviewByMovieAndUsername(review.movieId as number, review.userId).then((doc) => doc.docs[0].id)
+        if(await didUserReport(id,reporter)){
+            return toast.error("You Already Reported This Review");
+        }
+        const data = {
+            date: serverTimestamp(),
+            reason: reason,
+            removed: false,
+            reviewId: id,
+            reviewed: false,
+            text: review.text,
+            userId: review.userId,
+            reporter: reporter
+        }
+        addDoc(collection(firestore, 'reports'), data)
+            .catch((e) => {
+                alert("failed to submit report: ");
+                throw e;
+            });
+        toast.success("Report Submitted For Review");
 }
