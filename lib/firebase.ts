@@ -2,19 +2,7 @@ import firebaseConfig from "./firebaseConfig";
 import {initializeApp} from "firebase/app";
 import {getAuth, GoogleAuthProvider} from "firebase/auth";
 import {DocumentSnapshot, getFirestore} from "firebase/firestore";
-import {
-    addDoc,
-    collection,
-    doc,
-    getDoc,
-    getDocs,
-    limit,
-    orderBy,
-    query,
-    serverTimestamp,
-    setDoc,
-    where
-} from "@firebase/firestore";
+import {addDoc, collection, doc, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc, where} from "@firebase/firestore";
 import {useCollection} from "react-firebase-hooks/firestore";
 import toast from "react-hot-toast";
 
