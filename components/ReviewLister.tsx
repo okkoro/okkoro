@@ -1,9 +1,9 @@
 import {collection, query, where} from "@firebase/firestore";
 import {getFirestore} from "firebase/firestore";
 import {useCollection} from "react-firebase-hooks/firestore";
-import {Col, Dropdown, Row} from "react-bootstrap";
+import {Col, Dropdown, Row, Modal, Form} from "react-bootstrap";
 import Script from "next/script";
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {UserContext} from "../lib/context";
 
 
@@ -25,8 +25,24 @@ export function ReviewLister(props: { movieId: number }) {
     );
 }
 
+
+
 export function ReviewItem(props: { review: Review }) {
-    const {user, username, admin} = useContext(UserContext);
+    const { username, admin} = useContext(UserContext);
+
+    const [showReason, setShowReason] = useState(false)
+
+    function showReasonModal(){
+        setShowReason(true)
+    }
+
+    function hideReasonModal(){
+        setShowReason(false)
+    }
+
+    function submit(){
+        return alert("submit")
+    }
 
     return (
         <Row className={"bg-light-gray text-black m-2 px-2 py-3 rounded"}>
@@ -66,7 +82,9 @@ export function ReviewItem(props: { review: Review }) {
                                     <Dropdown.Item>Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
                                 </>)
                                 : (<>
-                                    <Dropdown.Item>Report <i className="fa-solid fa-flag"></i></Dropdown.Item>
+                                    <Dropdown.Item as="button" onClick={showReasonModal}>Report <i className="fa-solid fa-flag"></i>
+                                        <ReportModal show={showReason} handleClose={hideReasonModal} handleSubmit={submit}/>
+                                    </Dropdown.Item>
                                 </>)
                             }
                         </Dropdown.Menu>
@@ -74,5 +92,30 @@ export function ReviewItem(props: { review: Review }) {
                 </div>
             </Col>
         </Row>
+    )
+}
+
+export function ReportModal(props: {show:boolean,handleClose: () => void, handleSubmit: ()=>void}) {
+
+
+    return (
+        <div onClick={e => e.stopPropagation()}>
+        <Modal show={props.show} onHide={props.handleClose}>
+            <Modal.Header closeButton>
+                <Modal.Title>Report Review</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <Form onSubmit={props.handleSubmit} id={"reportForm"}>
+                    <Form.Group>
+                        <Form.Label>Reason For Report:</Form.Label>
+                        <Form.Control required id={"text"} name={"text"} as={"textarea"} rows={5} />
+                    </Form.Group>
+                </Form>
+            </Modal.Body>
+            <Modal.Footer>
+
+            </Modal.Footer>
+        </Modal>
+        </div>
     )
 }
