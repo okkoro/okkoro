@@ -6,6 +6,7 @@ import Script from "next/script";
 import {useContext, useState} from "react";
 import {UserContext} from "../lib/context";
 import {submitReport} from "../lib/firebase";
+import toast from "react-hot-toast";
 
 
 export function ReviewLister(props: { movieId: number }) {
@@ -43,9 +44,9 @@ export function ReviewItem(props: { review: Review }) {
 
     function submit(event: any){
         event.preventDefault()
-        console.log(props.review)
         submitReport(props.review, event.target.text.value)
-        return alert("submit")
+        setShowReason(false)
+        toast.success("Report Submitted To Be Reviewed");
     }
 
     return (
