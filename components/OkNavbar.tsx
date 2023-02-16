@@ -72,7 +72,7 @@ export default function OkNavbar() {
 
                         {!username && (
                             <Link href={"/enter"}>
-                                <Button>Log In</Button>
+                                <Button>{t("navbarLogIn")}</Button>
                             </Link>
                         )}
                     </div>

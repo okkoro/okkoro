@@ -19,12 +19,14 @@ i18n
         resources: {
             en: {
                 translation: {
-                    navbarMovies: "Movies"
+                    navbarMovies: "Movies",
+                    navbarLogIn: "Log in"
                 }
             },
             fr: {
                 translation: {
-                    navbarMovies: "Films"
+                    navbarMovies: "Films",
+                    navbarLogIn: "Enregistrer"
                 }
             }
         }
