@@ -7,6 +7,7 @@ import Image from "next/image";
 
 import okkoroPic from "/public/okkoro.png";
 import MovieList from "../components/MovieList";
+import {useTranslation} from "react-i18next";
 
 const LIMIT = 20;
 
@@ -33,17 +34,19 @@ export async function getServerSideProps() {
 export default function Home(props: { movies: [Movie]; }) {
     const [movies, setMovies] = useState(props.movies);
 
+    const {t} = useTranslation();
+
     return (
         <div>
             <div className="row">
                 <div className="col text-center">
                     <Image src={okkoroPic} alt={"Logo"} />
 
-                    <h1>WELCOME TO OKKORO</h1>
+                    <h1>{t("landingWelcome")}</h1>
 
                 </div>
             </div>
-            <MovieList movies={movies} listTitle={"Genre"} />
+            <MovieList movies={movies} listTitle={t("landingGenre")} />
         </div>
     )
 }

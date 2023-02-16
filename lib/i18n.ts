@@ -20,13 +20,17 @@ i18n
             en: {
                 translation: {
                     navbarMovies: "Movies",
-                    navbarLogIn: "Log in"
+                    navbarLogIn: "Log in",
+                    landingWelcome: "WELCOME TO OKKORO",
+                    landingGenre: "Genre"
                 }
             },
             fr: {
                 translation: {
                     navbarMovies: "Films",
-                    navbarLogIn: "Enregistrer"
+                    navbarLogIn: "Enregistrer",
+                    landingWelcome: "BIENVENUE À OKKORO",
+                    landingGenre: "Genre"
                 }
             }
         }
