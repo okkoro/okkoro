@@ -2,7 +2,6 @@ import {collection, query, where} from "@firebase/firestore";
 import {getFirestore} from "firebase/firestore";
 import {useCollection} from "react-firebase-hooks/firestore";
 import {Col, Dropdown, Row} from "react-bootstrap";
-import Script from "next/script";
 import {useContext} from "react";
 import {UserContext} from "../lib/context";
 
@@ -15,7 +14,6 @@ export function ReviewLister(props: { movieId: number }) {
 
     return (
         <>
-            <Script src="https://kit.fontawesome.com/41b311bbbd.js" crossOrigin="anonymous" />
             {reviews && reviews.length > 0 ? reviews.map((review) =>
                     <ReviewItem key={review.userId} review={review as Review} />
                 )
