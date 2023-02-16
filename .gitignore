@@ -40,3 +40,7 @@ next-env.d.ts
 
 # NYC report
 out.json
+
+#firebase
+firestore-debug.log
+ui-debug.log

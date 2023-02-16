@@ -52,13 +52,15 @@ export default function MovieDetails() {
     // console.log(`Moviedetails refreshed: moviedetails + ${movieDetails} + Genres: ${movieGenres} + activeUserReview ${activeUserReview}`)
 
     return (
-        <div className="row">
-            <div className="col">
+        <Row>
+            <Col>
                 {movieDetails != null && (
                     <Container>
                         <Row>
                             <Col className={"text-center"}>
                                 <Image className={"w-75 p-3"} style={{borderRadius: 25}} src={"https://image.tmdb.org/t/p/w500" + movieDetails.poster_path} alt="image of movie" />
+
+                                <br/>
 
                                 {username ?
                                     <>
@@ -73,25 +75,26 @@ export default function MovieDetails() {
                                 }
                             </Col>
 
-                            <Col className={"col-lg-5 col-md-6"}>
-                                <h1 data-cy={`MovieTitle`}>{movieDetails.title}</h1>
+                            <Col className={"col-lg-9"}>
+                                <div className={"d-flex flex-row"}>
+                                    <h1 className={"d-inline"} data-cy={`MovieTitle`}>{movieDetails.title}</h1>
+                                    <Link className={"ms-auto align-self-center btn btn-green rounded-pill"} href={"/movies/" + movieId + "/lists"} data-cy={"addToListButton"}>Add To List</Link>
+                                </div>
+
                                 <p>{movieDetails.release_date}</p>
                                 <p>{movieDetails.vote_average}/10</p>
                                 <p>{movieGenres}</p>
                                 <p>{movieDetails.overview}</p>
                             </Col>
-                            <Col className={"col-lg-2 col-md-6"}>
-                                <Link href={"/movies/" + movieId + "/lists"} data-cy={"addToListButton"}>Add To List</Link>
-                            </Col>
                         </Row>
 
-                        Reviews:
+                        <h3 className={"ps-3 mt-3 mb-2"}>Reviews:</h3>
                         <ReviewLister movieId={movieDetails.id} />
 
                     </Container>
                 )}
-            </div>
-        </div>
+            </Col>
+        </Row>
     )
 }
 

@@ -26,7 +26,7 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
 .cardTextPos {
   position: absolute;
   transform: translate(0px, -125%);
-  z-index: 99999 !important;
+  z-index: 1;
 }
 
 .xButton{
@@ -44,7 +44,7 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
   justify-content: center;
   border-radius:50%;
   position:absolute;
-  z-index:9999999999 !important;
+  z-index:1 ;
 }
 .xButton:hover{
   color: #FC7DAF;
@@ -76,7 +76,7 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
   //TODO: figure fade out anim
 }
 
-.cardAnim:hover::after {
+.cardAnim>a:hover::after {
   content: '';
   position: absolute;
   left: 0;
@@ -115,3 +115,12 @@ $cardGrad: #00000088 30%, #ffffff44 100%;
 ::-webkit-scrollbar-thumb:hover {
   background-color: desaturate(map.get($custom-colors, "dark-gray"), 25%);
 }
+
+//Pref modal
+.prefCheck{
+  accent-color: #FC7DAF;
+}
+ul {
+  list-style-type: none;
+}
+
