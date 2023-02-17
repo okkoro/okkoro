@@ -54,8 +54,19 @@ i18n
 
                     profileLanding: "{{username}}'s Page",
                     profileGetRecomBtn: "Get Recommendations!",
-                    profileNothingMessage: "Nothing yet... go find some movies!"
+                    profileNothingMessage: "Nothing yet... go find some movies!",
+                    genreListerUpdateSuccess: "Preferences Updated",
+                    genreListerUpdateFailure: "Error updating preferences",
+                    genreListerFormHeader: "Genre Preferences",
+                    genreListerLoading: "Loading Genres...",
 
+                    enterSignInWithGoogle: "Sign in with Google",
+                    enterSignOut: "Sign Out",
+                    enterCheckingMessage: "Checking...",
+                    enterUsernameAvailable: "{{username}} is available!",
+                    enterUsernameNotAvailable: "That username is taken!",
+                    enterChooseUsername: "Choose Username",
+                    enterChooseBtn: "Choose",
                 }
             },
             fr: {
@@ -96,8 +107,18 @@ i18n
                     profileLanding: "Page de {{username}}",
                     profileGetRecomBtn: "Obtenez des recommandations!",
                     profileNothingMessage: "Rien encore... allez chercher des films!",
+                    genreListerUpdateSuccess: "Préférences mises à jour",
+                    genreListerUpdateFailure: "Impossible de mettre à jour les préférences",
+                    genreListerFormHeader: "Préférences de genre",
+                    genreListerLoading: "Chargement des genres...",
 
-
+                    enterSignInWithGoogle: "Connectez-vous avec Google",
+                    enterSignOut: "Déconnecter",
+                    enterCheckingMessage: "Vérification en cours...",
+                    enterUsernameAvailable: "{{username}} est disponible!",
+                    enterUsernameNotAvailable: "Ce nom d'utilisateur est déjà pris!",
+                    enterChooseUsername: "Choisissez votre Nom d'utilisateur",
+                    enterChooseBtn: "Choisir",
                 }
             }
         }
