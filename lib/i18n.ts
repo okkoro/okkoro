@@ -47,6 +47,9 @@ i18n
                     moviesReviewScore8: "Really Good",
                     moviesReviewScore9: "Great",
                     moviesReviewScore10: "Masterpiece",
+                    moviesListSuccess: "Added movie to list!",
+                    moviesListFailure: "Could not add movie to list - is it already in it?",
+                    moviesListFormHeader: "Add {{title}} to list:",
                     save: "Save",
 
 
@@ -83,6 +86,9 @@ i18n
                     moviesReviewScore8: "Très bien",
                     moviesReviewScore9: "Super",
                     moviesReviewScore10: "Chef-d'œuvre",
+                    moviesListSuccess: "Film ajouté à la liste!",
+                    moviesListFailure: "Impossible d'ajouter le film à la liste - y est-il déjà?",
+                    moviesListFormHeader: "Ajouter {{title}} à la liste:",
                     save: "Sauvegarder",
 
 
