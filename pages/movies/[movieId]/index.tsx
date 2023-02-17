@@ -9,10 +9,13 @@ import toast from "react-hot-toast";
 import {QueryDocumentSnapshot} from "@firebase/firestore";
 import Link from "next/link";
 import {createReview, updateReview} from "../../../lib/reviews";
+import {useTranslation} from "react-i18next";
 
 export default function MovieDetails() {
     const {username} = useContext(UserContext);
     const {movieId} = useRouter().query;
+
+    const {t} = useTranslation();
 
     const [movieDetails, setMovieDetails] = useState(null as any);
     const [movieGenres, setMovieGenres] = useState(null);
@@ -70,7 +73,7 @@ export default function MovieDetails() {
                                         }
                                     </>
                                     : <Link href={"/enter"}>
-                                        <Button variant={"green"} className={"rounded-pill text-black"}>Log in to add a review</Button>
+                                        <Button variant={"green"} className={"rounded-pill text-black"}>{t("moviesLogInRequired")}</Button>
                                     </Link>
                                 }
                             </Col>
@@ -78,7 +81,7 @@ export default function MovieDetails() {
                             <Col className={"col-lg-9"}>
                                 <div className={"d-flex flex-row"}>
                                     <h1 className={"d-inline"} data-cy={`MovieTitle`}>{movieDetails.title}</h1>
-                                    <Link className={"ms-auto align-self-center btn btn-green rounded-pill"} href={"/movies/" + movieId + "/lists"} data-cy={"addToListButton"}>Add To List</Link>
+                                    <Link className={"ms-auto align-self-center btn btn-green rounded-pill"} href={"/movies/" + movieId + "/lists"} data-cy={"addToListButton"}>{t("moviesAddToList")}</Link>
                                 </div>
 
                                 <p>{movieDetails.release_date}</p>
@@ -88,7 +91,7 @@ export default function MovieDetails() {
                             </Col>
                         </Row>
 
-                        <h3 className={"ps-3 mt-3 mb-2"}>Reviews:</h3>
+                        <h3 className={"ps-3 mt-3 mb-2"}>{t("movieReviewLabel")}</h3>
                         <ReviewLister movieId={movieDetails.id} />
 
                     </Container>
@@ -100,7 +103,7 @@ export default function MovieDetails() {
 
 function AddReviewModal(props: { movie: Movie, callback: () => void }) {
     const {user, username} = useContext(UserContext);
-
+    const {t} = useTranslation();
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -118,9 +121,9 @@ function AddReviewModal(props: { movie: Movie, callback: () => void }) {
         const res = await createReview(review);
 
         if (res)
-            toast.success("Review created!");
+            toast.success(t("moviesReviewCreateSuccess"));
         else
-            toast.error("Failed to create review")
+            toast.error(t("moviesReviewCreateFailure"));
 
         //invalidate cache
         // setTimeout(() => {props.callback();}, 200)
@@ -133,16 +136,17 @@ function AddReviewModal(props: { movie: Movie, callback: () => void }) {
     return (
         <>
             <Button variant={"green"} className={"rounded-pill text-black"} onClick={handleShow}>
-                Add review
+                {t("moviesAddReview")}
             </Button>
 
-            <ReviewFormModal handleClose={handleClose} handleSubmit={handleSubmit} modalHeader={`Add a review for: ${props.movie.title}`} show={show} />
+            <ReviewFormModal handleClose={handleClose} handleSubmit={handleSubmit} modalHeader={`${t("moviesReviewAddReviewModalHeader")} ${props.movie.title}`} show={show} />
         </>
     );
 }
 
 function EditReviewModal(props: { movie: Movie, reviewToEditDoc: QueryDocumentSnapshot }) {
     const {user, username} = useContext(UserContext);
+    const {t} = useTranslation();
 
     const [show, setShow] = useState(false);
 
@@ -163,9 +167,9 @@ function EditReviewModal(props: { movie: Movie, reviewToEditDoc: QueryDocumentSn
         const res = await updateReview(review);
 
         if (res)
-            toast.success("Review updated!");
+            toast.success(t("moviesReviewUpdateSuccess"));
         else
-            toast.error("Failed to update review")
+            toast.error(t("moviesReviewUpdateFailure"));
 
         //Close modal
         handleClose();
@@ -174,13 +178,13 @@ function EditReviewModal(props: { movie: Movie, reviewToEditDoc: QueryDocumentSn
     return (
         <>
             <Button variant={"green"} className={"rounded-pill text-black"} onClick={handleShow}>
-                Edit review
+                {t("moviesEditReview")}
             </Button>
 
             <ReviewFormModal
                 handleClose={handleClose}
                 handleSubmit={handleSubmit}
-                modalHeader={`Edit review for: ${props.movie.title}`}
+                modalHeader={`${t("moviesReviewEditReviewModalHeader")} ${props.movie.title}`}
                 show={show}
                 placeholders={placeholders}
             />
@@ -189,6 +193,8 @@ function EditReviewModal(props: { movie: Movie, reviewToEditDoc: QueryDocumentSn
 }
 
 function ReviewFormModal(props: { modalHeader: string, show: boolean, handleClose: () => void, handleSubmit: (event: any) => any, placeholders?: { score: number, text: string } }) {
+    const {t} = useTranslation();
+
     return (
         <div onClick={e => e.stopPropagation()}>
             <Modal size={"lg"} show={props.show} onHide={props.handleClose}>
@@ -199,22 +205,22 @@ function ReviewFormModal(props: { modalHeader: string, show: boolean, handleClos
 
                     <Form onSubmit={props.handleSubmit} id={"reviewForm"}>
                         <Form.Group>
-                            <Form.Label>Score:</Form.Label>
+                            <Form.Label>{t("moviesReviewScoreFormLabel")}</Form.Label>
                             <Form.Select required id={"score"} name={"score"}>
-                                <option value="1" selected={(props.placeholders?.score == 1)}>1 - Disgusting</option>
-                                <option value="2" selected={(props.placeholders?.score == 2)}>2 - Terrible</option>
-                                <option value="3" selected={(props.placeholders?.score == 3)}>3 - Really bad</option>
-                                <option value="4" selected={(props.placeholders?.score == 4)}>4 - Just Bad</option>
-                                <option value="5" selected={(props.placeholders?.score == 5)}>5 - Average</option>
-                                <option value="6" selected={(props.placeholders?.score == 6)}>6 - Passable</option>
-                                <option value="7" selected={(props.placeholders?.score == 7)}>7 - Good</option>
-                                <option value="8" selected={(props.placeholders?.score == 8)}>8 - Really Good</option>
-                                <option value="9" selected={(props.placeholders?.score == 9)}>9 - Great</option>
-                                <option value="10" selected={(props.placeholders?.score == 10)}>10 - Masterpiece</option>
+                                <option value="1" selected={(props.placeholders?.score == 1)}>1 - {t("moviesReviewScore1")}</option>
+                                <option value="2" selected={(props.placeholders?.score == 2)}>2 - {t("moviesReviewScore2")}</option>
+                                <option value="3" selected={(props.placeholders?.score == 3)}>3 - {t("moviesReviewScore3")}</option>
+                                <option value="4" selected={(props.placeholders?.score == 4)}>4 - {t("moviesReviewScore4")}</option>
+                                <option value="5" selected={(props.placeholders?.score == 5)}>5 - {t("moviesReviewScore5")}</option>
+                                <option value="6" selected={(props.placeholders?.score == 6)}>6 - {t("moviesReviewScore6")}</option>
+                                <option value="7" selected={(props.placeholders?.score == 7)}>7 - {t("moviesReviewScore7")}</option>
+                                <option value="8" selected={(props.placeholders?.score == 8)}>8 - {t("moviesReviewScore8")}</option>
+                                <option value="9" selected={(props.placeholders?.score == 9)}>9 - {t("moviesReviewScore9")}</option>
+                                <option value="10" selected={(props.placeholders?.score == 10)}>10 - {t("moviesReviewScore10")}</option>
                             </Form.Select>
                         </Form.Group>
                         <Form.Group>
-                            <Form.Label>Review Text:</Form.Label>
+                            <Form.Label>{t("moviesReviewTextFormLabel")}</Form.Label>
                             <Form.Control required id={"text"} name={"text"} as={"textarea"} rows={5} defaultValue={props.placeholders?.text} />
                         </Form.Group>
                     </Form>
@@ -222,7 +228,7 @@ function ReviewFormModal(props: { modalHeader: string, show: boolean, handleClos
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" type={"submit"} form={"reviewForm"}>
-                        Save
+                        {t("save")}
                     </Button>
                 </Modal.Footer>
             </Modal>
