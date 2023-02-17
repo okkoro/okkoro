@@ -52,7 +52,9 @@ i18n
                     moviesListFormHeader: "Add {{title}} to list:",
                     save: "Save",
 
-
+                    profileLanding: "{{username}}'s Page",
+                    profileGetRecomBtn: "Get Recommendations!",
+                    profileNothingMessage: "Nothing yet... go find some movies!"
 
                 }
             },
@@ -91,6 +93,9 @@ i18n
                     moviesListFormHeader: "Ajouter {{title}} à la liste:",
                     save: "Sauvegarder",
 
+                    profileLanding: "Page de {{username}}",
+                    profileGetRecomBtn: "Obtenez des recommandations!",
+                    profileNothingMessage: "Rien encore... allez chercher des films!",
 
 
                 }
