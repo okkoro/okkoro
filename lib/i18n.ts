@@ -67,6 +67,14 @@ i18n
                     enterUsernameNotAvailable: "That username is taken!",
                     enterChooseUsername: "Choose Username",
                     enterChooseBtn: "Choose",
+
+                    reviewListerNoReviewMessage: "No reviews yet",
+                    reviewItemDropDownDelete: "Delete",
+                    reviewItemDropDownEdit: "Edit",
+                    reviewItemDropDownReport: "Report",
+                    reviewReportModalHeader: "Report Review",
+                    reviewReportModalReason: "Reason:",
+                    reviewReportModalSubmit: "Submit Report"
                 }
             },
             fr: {
@@ -119,6 +127,14 @@ i18n
                     enterUsernameNotAvailable: "Ce nom d'utilisateur est déjà pris!",
                     enterChooseUsername: "Choisissez votre Nom d'utilisateur",
                     enterChooseBtn: "Choisir",
+
+                    reviewListerNoReviewMessage: "Pas de critiques en ce moment",
+                    reviewItemDropDownDelete: "Supprimer",
+                    reviewItemDropDownEdit: "Modifier",
+                    reviewItemDropDownReport: "Rapporter",
+                    reviewReportModalHeader: "Rapporter la critique",
+                    reviewReportModalReason: "Raison:",
+                    reviewReportModalSubmit: "Soumettre le rapport"
                 }
             }
         }
