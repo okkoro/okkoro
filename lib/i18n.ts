@@ -59,6 +59,7 @@ i18n
                     genreListerUpdateFailure: "Error updating preferences",
                     genreListerFormHeader: "Genre Preferences",
                     genreListerLoading: "Loading Genres...",
+                    genreListerEditPreferencesBtn: "Edit Preferences",
 
                     enterSignInWithGoogle: "Sign in with Google",
                     enterSignOut: "Sign Out",
@@ -119,6 +120,7 @@ i18n
                     genreListerUpdateFailure: "Impossible de mettre à jour les préférences",
                     genreListerFormHeader: "Préférences de genre",
                     genreListerLoading: "Chargement des genres...",
+                    genreListerEditPreferencesBtn: "Modifier les préférences",
 
                     enterSignInWithGoogle: "Connectez-vous avec Google",
                     enterSignOut: "Déconnecter",

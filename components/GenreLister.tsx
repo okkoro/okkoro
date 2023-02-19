@@ -38,7 +38,7 @@ export function GenreLister(props: { genres: Genre[] }) {
 
     return (
         <div>
-            <Button variant={"green"} className={"rounded-pill text-black"} onClick={prefToggle}>Edit Preferences</Button>
+            <Button variant={"green"} className={"rounded-pill text-black"} onClick={prefToggle}>{t("genreListerEditPreferencesBtn")}</Button>
             <Modal size={"sm"} show={showPref} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{t("genreListerFormHeader")}</Modal.Title>
