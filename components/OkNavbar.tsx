@@ -52,7 +52,7 @@ export default function OkNavbar() {
                             <i>admin</i>
                         </div>)}
 
-                        <button className={"btn btn-outline-green"} style={{minWidth: "46px"}} onClick={switchLanguage}>
+                        <button className={"btn btn-outline-green"} data-cy={"Language-NavButton"} style={{minWidth: "46px"}} onClick={switchLanguage}>
                             {i18n.resolvedLanguage === "en" ?
                                 <>{lngs["en"].nativeName}</>
                                 : <>{lngs["fr"].nativeName}</>
