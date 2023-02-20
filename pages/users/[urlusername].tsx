@@ -9,6 +9,7 @@ import MovieList from "../../components/MovieList";
 import ProfileMovieList from "../../components/ProfileMovieList";
 import {UserContext} from "../../lib/context";
 import {GenreLister} from "../../components/GenreLister";
+import {useTranslation} from "react-i18next";
 
 
 
@@ -28,6 +29,7 @@ export default function Profile() {
 }
 
 function SignedInProfile(props: { urlusername: any; }) {
+    const {t} = useTranslation();
     const urlusername = props.urlusername
 
     //recoms
@@ -121,7 +123,7 @@ function SignedInProfile(props: { urlusername: any; }) {
             <Row>
                 <Col className="text-center">
                     <Image src={banner.src} alt="okkoro banner" width={banner.width} height={banner.height}/>
-                    <h1>{urlusername}&apos;s Page</h1>
+                    <h1>{t("profileLanding", {username: urlusername})}</h1>
                 </Col>
             </Row>
             <Row>
@@ -129,7 +131,7 @@ function SignedInProfile(props: { urlusername: any; }) {
                     <div>
                         {(username && username == urlusername) &&
                             <>
-                                <Button variant={"pink"} className={"rounded-pill text-black"} onClick={() => CallApi()} data-cy={"recomButton"}>Get Recommendations!</Button>
+                                <Button variant={"pink"} className={"rounded-pill text-black"} onClick={() => CallApi()} data-cy={"recomButton"}>{t("profileGetRecomBtn")}</Button>
                                 {/*//@ts-ignore*/}
                                 <MovieList data-cy={"oneMovieList"} movies={movieState} listTitle={""}/>
                             </>
@@ -143,7 +145,7 @@ function SignedInProfile(props: { urlusername: any; }) {
                             {Array.from(listList).sort((a,b) => (a.at(0) > b.at(0)) ? 1 : ((b.at(0) > a.at(0)) ? -1 : 0)).map((list) => {
                                 return <ProfileMovieList key={list[0]} listTitle={list[0]} movies={list[1]} stateUpdate={example}/>
                             })}
-                        </div>) : <p>nothing</p>}
+                        </div>) : <p>{t("profileNothingMessage")}</p>}
                     </div>
 
                 </Col>

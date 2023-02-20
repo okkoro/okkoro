@@ -6,6 +6,7 @@ import {doc, getDoc, getFirestore, writeBatch} from 'firebase/firestore';
 // @ts-ignore
 import debounce from 'lodash.debounce';
 import Image from "next/image";
+import {useTranslation} from "react-i18next";
 
 // @ts-ignore
 export default function Enter(props) {
@@ -26,6 +27,7 @@ export default function Enter(props) {
 }
 
 function SignInButton() {
+    const {t} = useTranslation();
     const signInWithGoogle = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
@@ -36,17 +38,19 @@ function SignInButton() {
 
     return (
         <button className="btn-google" onClick={signInWithGoogle}>
-            <Image height="32" width="32" src={"https://ssl.gstatic.com/images/branding/googleg/2x/googleg_standard_color_64dp.png"}  alt={"google"}/>
-            Sign in with Google
+            <Image height="32" width="32" src={"https://ssl.gstatic.com/images/branding/googleg/2x/googleg_standard_color_64dp.png"} alt={"google"} />
+            {t("enterSignInWithGoogle")}
         </button>
     );
 }
 
 function SignOutButton() {
-    return <button onClick={() => auth.signOut()}>Sign Out</button>
+    const {t} = useTranslation();
+    return <button onClick={() => auth.signOut()}>{t("enterSignOut")}</button>
 }
 
 function UsernameForm() {
+    const {t} = useTranslation();
     const [formValue, setFormValue] = useState('');
     const [isValid, setIsValid] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -111,11 +115,11 @@ function UsernameForm() {
     // @ts-ignore
     function UsernameMessage({username, isValid, loading}) {
         if (loading) {
-            return <p>Checking...</p>
+            return <p>{t("enterCheckingMessage")}</p>
         } else if (isValid) {
-            return <p className="text-success">{username} is available!</p>
+            return <p className="text-success">{t("enterUsernameAvailable", {username: username})}</p>
         } else if (username && !isValid) {
-            return <p className="text-danger">That username is taken!</p>
+            return <p className="text-danger">{t("enterUsernameNotAvailable")}</p>
         } else {
             return <p></p>
         }
@@ -124,24 +128,24 @@ function UsernameForm() {
     return (
         !username && (
             <section>
-                <h3>Choose Username</h3>
+                <h3>{t("enterChooseUsername")}</h3>
                 <form onSubmit={onSubmit}>
                     <input name="username" placeholder="username " value={formValue} onChange={onChange} />
 
                     <UsernameMessage username={formValue} isValid={isValid} loading={loading} />
 
                     <button type="submit" className="btn-green" disabled={!isValid}>
-                        Choose
+                        {t("enterChooseBtn")}
                     </button>
 
-                    <h3>Debug State:</h3>
-                    <div>
-                        Username: {formValue}
-                        <br />
-                        Loading: {loading.toString()}
-                        <br />
-                        Username Valid: {isValid.toString()}
-                    </div>
+                    {/*<h3>Debug State:</h3>*/}
+                    {/*<div>*/}
+                    {/*    Username: {formValue}*/}
+                    {/*    <br />*/}
+                    {/*    Loading: {loading.toString()}*/}
+                    {/*    <br />*/}
+                    {/*    Username Valid: {isValid.toString()}*/}
+                    {/*</div>*/}
                 </form>
             </section>
         )

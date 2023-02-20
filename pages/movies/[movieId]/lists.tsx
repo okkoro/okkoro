@@ -4,8 +4,10 @@ import {useRouter} from "next/router";
 import {getMovieById, getUserByUsername, addMovieToList} from "../../../lib/firebase";
 import {Col, Container, Form, Image, Row} from "react-bootstrap";
 import toast from "react-hot-toast";
+import {useTranslation} from "react-i18next";
 
 export default function AddToList() {
+    const {t} = useTranslation();
     const router = useRouter();
 
     const {movieId} = router.query;
@@ -52,15 +54,14 @@ export default function AddToList() {
         const res = await addMovieToList(movieId, userQuery.at(0), document.getElementById("list-selector").value, user)
 
         if (res) {
-            toast.success("Added movie to list");
+            toast.success(t("moviesListSuccess"));
             await router.push("/movies/" + movieId);
         }
         else {
-            toast.error("Could not add movie to list - is it already in it?");
+            toast.error(t("moviesListFailure"));
         }
     }
 
-    // @ts-ignore
     return (
         <div className="row">
             <div className="col">
@@ -79,13 +80,13 @@ export default function AddToList() {
                             </Col>
                             <Col className={"col-4 p-3 text-center"}>
                                 <Form>
-                                    <Form.Label><h4>Add {movieDetails.title} to list:</h4></Form.Label>
+                                    <Form.Label><h4>{t("moviesListFormHeader", {title: movieDetails.title})}</h4></Form.Label>
                                     
                                     <Form.Select data-cy={"list-selector"} id={"list-selector"}>
                                         {lists.map((list) => <option key={list} value={list}>{list.charAt(0).toUpperCase() + list.substring(1)}</option>)}
                                     </Form.Select>
-
-                                    <Form.Control type={"submit"} className={"btn btn-green w-50 mt-3"} value={"Save"} onClick={addToList} data-cy={"submit-button"}/>
+                                    {/*// @ts-ignore*/}
+                                    <Form.Control type={"submit"} className={"btn btn-green w-50 mt-3"} value={t("save")} onClick={addToList} data-cy={"submit-button"}/>
                                 </Form>
                             </Col>
                         </Row>

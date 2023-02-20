@@ -2,13 +2,14 @@ import {collection, query, where} from "@firebase/firestore";
 import {getFirestore} from "firebase/firestore";
 import {useCollection} from "react-firebase-hooks/firestore";
 import {Col, Dropdown, Row, Modal, Form, Button} from "react-bootstrap";
-import Script from "next/script";
 import {useContext, useState} from "react";
 import {UserContext} from "../lib/context";
 import {submitReport} from "../lib/firebase";
+import {useTranslation} from "react-i18next";
 
 
 export function ReviewLister(props: { movieId: number }) {
+    const {t} = useTranslation();
     const ref = collection(getFirestore(), 'reviews')
     const reviewQuery = query(ref, where('movieId', '==', props.movieId))
     const [querySnapshot] = useCollection(reviewQuery);
@@ -16,11 +17,10 @@ export function ReviewLister(props: { movieId: number }) {
 
     return (
         <>
-            <Script src="https://kit.fontawesome.com/41b311bbbd.js" crossOrigin="anonymous" />
             {reviews && reviews.length > 0 ? reviews.map((review) =>
                     <ReviewItem key={review.userId} review={review as Review} />
                 )
-                : <div className={"text-white"}>No reviews yet</div>
+                : <div className={"text-white"}>{t("reviewListerNoReviewMessage")}</div>
             }
         </>
     );
@@ -30,6 +30,7 @@ export function ReviewLister(props: { movieId: number }) {
 
 export function ReviewItem(props: { review: Review }) {
     const { username, admin} = useContext(UserContext);
+    const {t} = useTranslation();
 
     const [showReason, setShowReason] = useState(false)
 
@@ -80,14 +81,14 @@ export function ReviewItem(props: { review: Review }) {
                         {/*TODO: Add functionality to these buttons*/}
                         <Dropdown.Menu>
                             {admin &&
-                                <Dropdown.Item data-cy={"Reviews-Dropdown-AdminDelete"}>Admin Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
+                                <Dropdown.Item data-cy={"Reviews-Dropdown-AdminDelete"}>(Admin) {t("reviewItemDropDownDelete")} <i className="fa-solid fa-trash"></i></Dropdown.Item>
                             }
                             {username == props.review.userId ? (<>
-                                    <Dropdown.Item>Edit <i className="fa-solid fa-file"></i></Dropdown.Item>
-                                    <Dropdown.Item>Delete <i className="fa-solid fa-trash"></i></Dropdown.Item>
+                                    <Dropdown.Item>{t("reviewItemDropDownEdit")} <i className="fa-solid fa-file"></i></Dropdown.Item>
+                                    <Dropdown.Item>{t("reviewItemDropDownDelete")} <i className="fa-solid fa-trash"></i></Dropdown.Item>
                                 </>)
                                 : (<>
-                                    <Dropdown.Item as="button" onClick={showReasonModal}>Report <i className="fa-solid fa-flag"></i>
+                                    <Dropdown.Item as="button" onClick={showReasonModal}>{t("reviewItemDropDownReport")} <i className="fa-solid fa-flag"></i>
                                         <ReportModal show={showReason} handleClose={hideReasonModal} handleSubmit={submit}/>
                                     </Dropdown.Item>
                                 </>)
@@ -102,25 +103,25 @@ export function ReviewItem(props: { review: Review }) {
 }
 
 export function ReportModal(props: {show:boolean,handleClose: () => void, handleSubmit: (event: any)=>void}) {
-
+    const {t} = useTranslation();
 
     return (
         <div onClick={e => e.stopPropagation()}>
         <Modal show={props.show} onHide={props.handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Report Review</Modal.Title>
+                <Modal.Title>{t("reviewReportModalHeader")}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form onSubmit={props.handleSubmit} id={"reportForm"}>
                     <Form.Group>
-                        <Form.Label>Reason For Report:</Form.Label>
+                        <Form.Label>{t("reviewReportModalReason")}</Form.Label>
                         <Form.Control required id={"text"} name={"text"} as={"textarea"} rows={5} />
                     </Form.Group>
                 </Form>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant={"danger"} className={"rounded-pill text-black"} type={"submit"} form={"reportForm"}>
-                    Submit Review
+                    {t("reviewReportModalSubmit")}
                 </Button>
             </Modal.Footer>
         </Modal>
